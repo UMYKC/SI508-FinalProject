@@ -1,0 +1,82 @@
+Proposal Expectations
+- Read all of the instructions for the final project, below, first.
+- Give us a basic idea, in words, of what you’re planning to do for the final project, based on that information.
+- Include your plan for:
+  - What data sources you will use
+    - What format of data will you get from them?
+  - What techniques (e.g. things in the list of second level requirements below) you will plan to use
+  - What your output/result will be from the project (e.g. describe what someone running the project will see / get / be able to do, see third level requirements)
+  - At least two data structures (e.g. class definitions, functions, complex dictionaries …) you might define within the project
+  - Descriptions of at least three test methods you’ll probably write
+  - What, if anything, you’ll need to learn that you do NOT currently know to complete the project, and a personal estimate of how much time you will need for that process
+
+NOTE
+
+Requirements for proposal submission
+- Submit a text file or PDF (`.txt` or `.pdf` only) to the CANVAS assignment Final Project Proposal — submit a 
+- Your .txt file or .pdf file should contain everything listed in Proposal Expectations
+- It should not be more than two pages
+- Make it easy and clear for us to read and understand — the easier it is to read quickly and understand what you’re getting at, the easier it is for us to give you good feedback!
+
+
+
+
+1. Main Purpose of this project
+***Pic  
+
+I am planning to write a program that can show the user daily NBA games box score, such like the format in Pic. 1. 
+
+In addition, users can use other command in terminal to see other information such as players in each team and players' statistics.
+
+2. The two data sources I will use are:
+a) NBA.com website
+b) A website called All Sports which enable user to get access to NBA game scores through RESTful API.
+ 
+3. The data format I will get from data sources are html and json.
+
+4. What technique I will use(Second level)
+ 
+<1> Scraping data that comes in HTML or XML form using BeautifulSoup 
+Use Postgres to demo tables in terminal
+
+<2> Accessing a REST API or a new endpoint of a REST API that we have not included in any course (lecture or section) meeting or assignment
+
+<3> Use a relational database / script that interacts with a database for data processing somewhere within the project
+
+
+5. My program Output(Third level)
+
+<1> A clear visualization of data such as using HTML page and/or an HTML page served in a Flask application
+Or 
+<2> A PostgreSQL database that includes at least two tables, such like
+
+|__________|_1Q_|_2Q_|_3Q_|_4Q_|_Total_|
+|_Warriors_|_10_|_20_|____|____|_______|
+|_Raptors__|_15_|_15_|____|____|_______|
+
+<3> An interactive project such as when user typing command "show" in terminal. The web browser will pop out and demonstrate the boxscore today. Or if user have install PostgreSQL, then it will show the box score table in terminal.
+
+6. 2 Data structures(class, function)
+
+<1> Class: 
+    a. Game, which has attributes like teams who play the game, the scores for each
+    quarter, the total score, and has __str__() method.
+
+    b. Player which has attributes like name, average score, assists, rebounds per game, and
+    has __str__() method.
+
+<2> Functions:
+    get_players_for_the_team(), where input takes the team's name. It will return a list
+    of Players of that team.
+    
+    get_wins_and_loses_to_date(), where input takes the team's name. It will return a           
+    string like 15-2. The team wins 15 games and loses 2 games.
+
+7. Tests for my program
+<1> Is the returned string correct when I try to print out object of Game and Player?
+<2> Does function get_players_for_the_team() return a list of Players?
+<3> Does the string function get_wins_and_loses_to_date() return can be split('-') into two numbers?
+
+
+
+
