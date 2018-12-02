@@ -44,10 +44,14 @@ def get_games_info():
 
         # url = requests.get(base_url, para_dict).url
 
+    with open("NBA_games.json", 'w') as f:
+        f.write(daily_game_text)
+        f.close()
+
     games_dict = json.loads(daily_game_text)
     list_of_games = games_dict["result"]
     list_of_game_objects = []
-    for game in list_of_games[1:]:
+    for game in list_of_games:
         home_team = game["event_home_team"]
         # print(home_team)
         away_team = game["event_away_team"]
@@ -55,15 +59,23 @@ def get_games_info():
         home_score = []
         away_score = []
         final_score = game["event_final_result"].split('-')
-        home_team_final_score = final_score[0]
-        away_team_final_score = final_score[1]
-        home_score.append(home_team_final_score)
-        away_score.append(away_team_final_score)
+        try:
+            home_team_final_score = final_score[0]
+            away_team_final_score = final_score[1]
+            home_score.append(home_team_final_score)
+            away_score.append(away_team_final_score)
+        except:
+            home_score.append(0)
+            away_score.append(0)
         # print([home_team_final_score, away_team_final_score])
         for quarter, score in game["scores"].items():
             # print(score[0]["score_home"])
-            home_score.append(score[0]["score_home"])
-            away_score.append(score[0]["score_away"])
+            try:
+                home_score.append(score[0]["score_home"])
+                away_score.append(score[0]["score_away"])
+            except:
+                home_score.append(0)
+                away_score.append(0)
 
         one_game = Game(home_team, away_team, home_score, away_score)
         list_of_game_objects.append(one_game)
