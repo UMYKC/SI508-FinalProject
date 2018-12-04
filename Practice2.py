@@ -23,7 +23,7 @@ NBA_Teams = {}
 NBA_Teams["Atlanta Hawks"] = "ATL"
 NBA_Teams["Brooklyn Nets"] = "BKN"
 NBA_Teams["Boston Celtics"] = "BOS"
-NBA_Teams["Charlotte Hornets"] = "CHO"
+NBA_Teams["Charlotte Hornets"] = "CHA"
 NBA_Teams["Chicago Bulls"] = "CHI"
 NBA_Teams["Cleveland Cavaliers"] = "CLE"
 NBA_Teams["Dallas Mavericks"] = "DAL"
@@ -158,171 +158,17 @@ def get_games_info():
 
     return list_of_game_objects
 
-'''
-#####################################################
-Player
-#####################################################
-'''
-class Player():
-    def __init__(self, name, min = 0, point = 0, rebound = 0, assist = 0, steal = 0, block = 0, ):
-        self.name = name
-        self.min = min
-        self.pts = point
-        self.reb = rebound
-        self.ast = assist
-        self.stl = steal
-        self.blk = block
 
-    def __str__(self):
-        s = "In this game, {} got {} points, {} rebounds, {} assists in {} minutes".format(self.name, self.pts, self.reb, self.ast, self.min.split(':')[0])
-        return s
 
-def checked(game):
-    for match in NBA_Matches.items():
+# print(NBA_Matches.items())
+
+def checked(game, NBA_Matches_dict):
+    for match in NBA_Matches_dict.items():
         if game == match:
             return True
 
     return False
 
-def get_player_info(home_team_abbr, away_team_abbr):
-    # https://www.basketball-reference.com/boxscores/201812020LAL.html
-    # time_today_id = time_today.strftime(DATETIME_FORMAT)
-    # 2018-12-03
-    # time_yesterday_id = time_yesterday.strftime(DATETIME_FORMAT)
-    # 2018-12-02
-    box_score_date1 = time_today_id.replace('-', '')
-    box_score_date2 = time_yesterday_id.replace('-', '')
-    # away_team_abbr = away_team_abbr.upper()
-    # home_team_abbr = home_team_abbr.upper()
-    box_score_url1 = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(box_score_date1, home_team_abbr)
-    box_score_url2 = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(box_score_date2, home_team_abbr)
-    box_score_id = "{} vs {}".format(away_team_abbr, home_team_abbr)
-
-    cache_file = "box_score_id.json"
-    cache = Cache(cache_file)
-    box_score_response_text = cache.get(box_score_id)
-
-    if box_score_response_text == None:
-        # response is a string
-        box_score_response_status1 = requests.get(box_score_url1).status_code
-        # print("box_score_response_text1: {}".format(box_score_response_text1))
-        # print("##############################################################")
-        box_score_response_status2 = requests.get(box_score_url2).status_code
-        # print("box_score_response_text2: {}".format(box_score_response_text2))
-        if box_score_response_status1 == 200:
-            box_score_url = box_score_url1
-            box_score_response_text = requests.get(box_score_url1).text
-        else:
-            box_score_url = box_score_url2
-            box_score_response_text = requests.get(box_score_url2).text
-
-        cache.set(box_score_id, box_score_response_text, 1)
-        print("send resquest to {}".format(box_score_id))
-
-    else:
-        print("{} is already in cache".format(box_score_id))
-
-    # print(box_score_url)
-
-    box_score_soup = BeautifulSoup(box_score_response_text, 'html.parser')
-    # print(box_score_soup.prettify())
-    lst = box_score_soup.find_all('tbody')
-    # print(len(lst))
-    away = lst[0]
-    home = lst[2]
-    list_of_away_player = []
-    list_of_home_player = []
-
-    away_count = 0
-    for player in away.find_all('tr'):
-        try:
-            name = player.a.text
-            player_info = player.find_all("td")
-            # print(player_info[0].text)
-            # print(player_info[17].text)
-            min = player_info[0].text
-            pts = player_info[18].text
-            rebs = player_info[12].text
-            asts = player_info[13].text
-            stls = player_info[14].text
-            blks = player_info[15].text
-            player = Player(name, min, pts, asts, rebs, stls, blks)
-            list_of_away_player.append(player)
-        except:
-            if away_count == 0:
-                away_count += 1
-                list_of_away_player.append(0)
-            else:
-                pass
-
-    home_count = 0
-    for player in home.find_all('tr'):
-        try:
-            name = player.a.text
-            player_info = player.find_all("td")
-            min = player_info[0].text
-            pts = player_info[18].text
-            rebs = player_info[12].text
-            asts = player_info[13].text
-            stls = player_info[14].text
-            blks = player_info[15].text
-            player = Player(name, min, pts, asts, rebs, stls, blks)
-            list_of_home_player.append(player)
-        except:
-            if home_count == 0:
-                home_count += 1
-                list_of_home_player.append(0)
-            else:
-                pass
-
-    return [list_of_home_player, list_of_away_player]
-
-
-'''
-scraping example https://www.nba.com/games/20181201/BKNWAS#/boxscore
-'''
-
-
-
-
-'''
-#####################################################
-Part 4: Run code
-#####################################################
-'''
-list_of_games = get_games_info()
-for game in list_of_games:
-    print("________________________________________________________________")
-    print(game)
-    print("----------------------------------------------------------------")
-    print('\n')
-
-A = "phi"
-A = A.upper()
-B = "mem"
-B = B.upper()
-
-input_match = (A, B)
-## First check if the match exist within this two days
-if checked(input_match) == False:
-    print("This match does not exist")
-else:
-    list_of_players = get_player_info(A, B)
-    list_of_home_players = list_of_players[0]
-    list_of_away_players = list_of_players[1]
-    print("HOME: {}".format(A))
-    print("############STARTERS#############")
-    for home_player in list_of_home_players:
-        if home_player != 0:
-            print(home_player)
-        else:
-            print("****BENCHES****")
-    print('#################################')
-
-    print("AWAY: {}".format(B))
-    print("############STARTERS#############")
-    for away_player in list_of_away_players:
-        if away_player != 0:
-            print(away_player)
-        else:
-            print("****BENCHES****")
+get_games_info()
+game = ('PHI', 'MEM')
+print(checked(game, NBA_Matches))
