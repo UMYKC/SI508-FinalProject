@@ -3,9 +3,11 @@
 from bs4 import BeautifulSoup
 from alternate_advanced_caching import Cache
 import requests
-import json
 from datetime import datetime, timedelta
 from secrets import all_sports_api
+import psycopg2, psycopg2.extras
+import sys # for exit program mgmt
+import json
 
 DATETIME_FORMAT = "%Y-%m-%d"
 time_today = datetime.today()
@@ -15,6 +17,24 @@ time_yesterday = time_today - time_delta
 time_yesterday_id = time_yesterday.strftime(DATETIME_FORMAT)
 
 #################################
+
+'''
+##########################################################
+Part 0: Setup PSQL and NBA Team Abbreviation Dictionary
+##########################################################
+'''
+
+### Set up database
+try:
+    conn = psycopg2.connect("dbname='NBA_BOXSCORE' user='kerrychou'")
+    print("Success connecting to database")
+except:
+    print("Unable to connect to the database. Check server and credentials.")
+    sys.exit(1)
+
+cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+# cur.execute('CREATE TABLE IF NOT EXISTS "DAL_POR" ("TEAM" VARCHAR(500) PRIMARY KEY, "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "TOTAL" INT)')
+
 
 # DATE_FORMAT_FOR_SCRAPING = "%Y%m%d"
 # time_for_url = datetime.today().strftime(DATE_FORMAT_FOR_SCRAPING)
@@ -283,6 +303,40 @@ scraping example https://www.nba.com/games/20181201/BKNWAS#/boxscore
 '''
 
 
+'''
+#####################################################
+Part 3: A clear visualization of data, Table in PSQL
+<1> Make dictionary for create table
+#####################################################
+'''
+# make_diction_for_psql
+# game.home_team, game.home_total_score, game.home1Q, game.home2Q, game.home3Q, game.home4Q
+def covert_to_diction(game):
+    team_box_score_diction = []
+    Home = {}
+    Home["TEAM"] = "{}".format(game.home_team)
+    Home["Q1"] = game.home1Q
+    Home["Q2"] = game.home2Q
+    Home["Q3"] = game.home3Q
+    Home["Q4"] = game.home4Q
+    Home["TOTAL"] = game.home_total_score
+    team_box_score_diction.append(Home)
+
+    Away = {}
+    Away["TEAM"] = "{}".format(game.away_team)
+    Away["Q1"] = game.away1Q
+    Away["Q2"] = game.away2Q
+    Away["Q3"] = game.away3Q
+    Away["Q4"] = game.away4Q
+    Away["TOTAL"] = game.away_total_score
+    team_box_score_diction.append(Away)
+
+    return team_box_score_diction
+
+
+
+
+
 
 
 '''
@@ -292,37 +346,50 @@ Part 4: Run code
 '''
 list_of_games = get_games_info()
 for game in list_of_games:
+    team_box_score_diction = covert_to_diction(game)
+    table_name = "{}_{}".format(game.home_team.split(' ')[-2], game.away_team.split(' ')[-2])
+    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("TEAM" VARCHAR(500) PRIMARY KEY, "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "TOTAL" INT)'.format(table_name)
+    cur.execute(query_for_table)
+    sql = 'INSERT INTO "{}" VALUES (%(TEAM)s, %(Q1)s, %(Q2)s, %(Q3)s, %(Q4)s, %(TOTAL)s) ON CONFLICT DO NOTHING'.format(table_name)
+    cur.executemany(sql,team_box_score_diction)
+    conn.commit()
+
     print("________________________________________________________________")
     print(game)
     print("----------------------------------------------------------------")
     print('\n')
 
-A = "phi"
-A = A.upper()
-B = "mem"
-B = B.upper()
 
-input_match = (A, B)
-## First check if the match exist within this two days
-if checked(input_match) == False:
-    print("This match does not exist")
-else:
-    list_of_players = get_player_info(A, B)
-    list_of_home_players = list_of_players[0]
-    list_of_away_players = list_of_players[1]
-    print("HOME: {}".format(A))
-    print("############STARTERS#############")
-    for home_player in list_of_home_players:
-        if home_player != 0:
-            print(home_player)
-        else:
-            print("****BENCHES****")
-    print('#################################')
+### AND DONE
+conn.close()
 
-    print("AWAY: {}".format(B))
-    print("############STARTERS#############")
-    for away_player in list_of_away_players:
-        if away_player != 0:
-            print(away_player)
-        else:
-            print("****BENCHES****")
+
+# A = "phi"
+# A = A.upper()
+# B = "mem"
+# B = B.upper()
+#
+# input_match = (A, B)
+# ## First check if the match exist within this two days
+# if checked(input_match) == False:
+#     print("This match does not exist")
+# else:
+#     list_of_players = get_player_info(A, B)
+#     list_of_home_players = list_of_players[0]
+#     list_of_away_players = list_of_players[1]
+#     print("HOME: {}".format(A))
+#     print("############STARTERS#############")
+#     for home_player in list_of_home_players:
+#         if home_player != 0:
+#             print(home_player)
+#         else:
+#             print("****BENCHES****")
+#     print('#################################')
+#
+#     print("AWAY: {}".format(B))
+#     print("############STARTERS#############")
+#     for away_player in list_of_away_players:
+#         if away_player != 0:
+#             print(away_player)
+#         else:
+#             print("****BENCHES****")
