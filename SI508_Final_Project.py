@@ -24,15 +24,6 @@ Part 0: Setup PSQL and NBA Team Abbreviation Dictionary
 ##########################################################
 '''
 
-### Set up database
-try:
-    conn = psycopg2.connect("dbname='NBA_BOXSCORE' user='kerrychou'")
-    print("Success connecting to database")
-except:
-    print("Unable to connect to the database. Check server and credentials.")
-    sys.exit(1)
-
-cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 # cur.execute('CREATE TABLE IF NOT EXISTS "DAL_POR" ("TEAM" VARCHAR(500) PRIMARY KEY, "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "TOTAL" INT)')
 
 
@@ -184,7 +175,7 @@ Player
 #####################################################
 '''
 class Player():
-    def __init__(self, name, min = 0, point = 0, rebound = 0, assist = 0, steal = 0, block = 0, ):
+    def __init__(self, name, min = 0, point = 0, rebound = 0, assist = 0, steal = 0, block = 0):
         self.name = name
         self.min = min
         self.pts = point
@@ -302,6 +293,62 @@ def get_player_info(home_team_abbr, away_team_abbr):
 scraping example https://www.nba.com/games/20181201/BKNWAS#/boxscore
 '''
 
+'''
+#####################################################
+Part 2: Functions
+<1> get_players_for_the_team()
+<2> get_wins_and_loses_to_date()
+#####################################################
+'''
+class Roster():
+    def __init__(self, name, no, position, height, weight):
+        self.name = name
+        self.no = no
+        self.position = position
+        self.height = height
+        self.weight = weight
+
+    def __str__(self):
+        s = "No.{}, {}, Pos: {}, Ht: {}, Wt: {}".format(self.no, self.name, self.position, self.height, self.weight)
+        return s
+
+def get_players_for_the_team(team_name_abbre):
+    team_url = "https://www.basketball-reference.com/teams/{}/2019.html".format(team_name_abbre)
+    team_id = "{}".format(team_name_abbre)
+
+    cache_file = "Team_Roster.json"
+    cache = Cache(cache_file)
+    team_response_text = cache.get(team_id)
+
+    if team_response_text == None:
+        # response is a string
+        team_response_text = requests.get(team_url).text
+        cache.set(team_id, team_response_text, 1)
+        print("send resquest to {}".format(team_id))
+
+    else:
+        print("{} is already in cache".format(team_id))
+
+    # print(box_score_url)
+
+    team_roster_soup = BeautifulSoup(team_response_text, 'html.parser')
+    team_roster_table = team_roster_soup.find(class_ = "overthrow table_container").tbody
+    team_roster_list = team_roster_table.find_all('tr')
+    roster_list = []
+    for player in team_roster_list:
+        player_name = player.a.text
+        player_no = player.th.text
+        player_info = player.find_all('td')
+        player_position = player_info[1].text
+        player_height = player_info[2].text
+        player_weight = player_info[3].text
+        roster = Roster(player_name, player_no, player_position, player_height, player_weight)
+        roster_list.append(roster)
+
+    return roster_list
+
+
+
 
 '''
 #####################################################
@@ -311,7 +358,7 @@ Part 3: A clear visualization of data, Table in PSQL
 '''
 # make_diction_for_psql
 # game.home_team, game.home_total_score, game.home1Q, game.home2Q, game.home3Q, game.home4Q
-def covert_to_diction(game):
+def covert_to_game_diction(game):
     team_box_score_diction = []
     Home = {}
     Home["TEAM"] = "{}".format(game.home_team)
@@ -333,6 +380,22 @@ def covert_to_diction(game):
 
     return team_box_score_diction
 
+def covert_to_roster_diction(roster_list):
+    list_of_roster_diction = []
+    for roster in roster_list:
+        roster_diction = {}
+        if roster.no != '':
+            roster_diction["No"] = roster.no
+        else:
+            roster_diction["No"] = -1
+        roster_diction["Name"] = roster.name
+        roster_diction["Position"] = roster.position
+        roster_diction["Height"] = roster.height
+        roster_diction["Weight"] = roster.weight
+        list_of_roster_diction.append(roster_diction)
+
+    return list_of_roster_diction
+
 
 
 
@@ -344,31 +407,69 @@ def covert_to_diction(game):
 Part 4: Run code
 #####################################################
 '''
-list_of_games = get_games_info()
-for game in list_of_games:
-    team_box_score_diction = covert_to_diction(game)
-    table_name = "{}_{}".format(game.home_team.split(' ')[-2], game.away_team.split(' ')[-2])
-    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("TEAM" VARCHAR(500) PRIMARY KEY, "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "TOTAL" INT)'.format(table_name)
-    cur.execute(query_for_table)
-    sql = 'INSERT INTO "{}" VALUES (%(TEAM)s, %(Q1)s, %(Q2)s, %(Q3)s, %(Q4)s, %(TOTAL)s) ON CONFLICT DO NOTHING'.format(table_name)
-    cur.executemany(sql,team_box_score_diction)
-    conn.commit()
+### Set up database
+# try:
+#     conn = psycopg2.connect("dbname='NBA_BOXSCORE' user='kerrychou'")
+#     print("Success connecting to database")
+# except:
+#     print("Unable to connect to the database. Check server and credentials.")
+#     sys.exit(1)
+#
+# cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+# list_of_games = get_games_info()
+# for game in list_of_games:
+#     team_box_score_diction = covert_to_game_diction(game)
+#     table_name = "{}_{}".format(game.home_team.split(' ')[-2], game.away_team.split(' ')[-2])
+#     query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("TEAM" VARCHAR(500) PRIMARY KEY, "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "FINAL" INT)'.format(table_name)
+#     cur.execute(query_for_table)
+#     sql = 'INSERT INTO "{}" VALUES (%(TEAM)s, %(Q1)s, %(Q2)s, %(Q3)s, %(Q4)s, %(TOTAL)s) ON CONFLICT DO NOTHING'.format(table_name)
+#     cur.executemany(sql,team_box_score_diction)
+#     conn.commit()
+#
+#     # print("________________________________________________________________")
+#     # print(game)
+#     # print("----------------------------------------------------------------")
+#     # print('\n')
+# #
+# #
+# ### AND DONE
+# conn.close()
 
-    print("________________________________________________________________")
-    print(game)
-    print("----------------------------------------------------------------")
-    print('\n')
+
+## Set up database
+try:
+    conn = psycopg2.connect("dbname='NBA_ROSTER' user='kerrychou'")
+    print("Success connecting to database")
+except:
+    print("Unable to connect to the database. Check server and credentials.")
+    sys.exit(1)
+
+cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+### get team roster
+roster_list = get_players_for_the_team("GSW")
+# for roster in roster_list:
+#     print(roster)
+list_of_roster_diction = covert_to_roster_diction(roster_list)
+# for roster_diction in list_of_roster_diction:
+#     print(roster_diction)
+# print(len(list_of_roster_diction))
+table_name = "{}".format("GSW")
+query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("NO" INT, "Player" VARCHAR(500) PRIMARY KEY, "Position" VARCHAR(500), "Height" VARCHAR(500), "Weight" INT)'.format(table_name)
+cur.execute(query_for_table)
+sql = 'INSERT INTO "{}" VALUES (%(No)s, %(Name)s, %(Position)s, %(Height)s, %(Weight)s) ON CONFLICT DO NOTHING'.format(table_name)
+cur.executemany(sql, list_of_roster_diction)
+conn.commit()
 
 
 ### AND DONE
 conn.close()
 
 
-# A = "phi"
+# A = "IND"
 # A = A.upper()
-# B = "mem"
+# B = "CHI"
 # B = B.upper()
-#
+
 # input_match = (A, B)
 # ## First check if the match exist within this two days
 # if checked(input_match) == False:
