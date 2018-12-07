@@ -10,11 +10,15 @@ import sys # for exit program mgmt
 import json
 
 DATETIME_FORMAT = "%Y-%m-%d"
+# time_delta = timedelta(days = 1)
 time_today = datetime.today()
 time_today_id = time_today.strftime(DATETIME_FORMAT)
 time_delta = timedelta(days = 1)
 time_yesterday = time_today - time_delta
 time_yesterday_id = time_yesterday.strftime(DATETIME_FORMAT)
+time_2days_before = time_yesterday - time_delta
+time_2days_before_id = time_2days_before.strftime(DATETIME_FORMAT)
+
 
 #################################
 
@@ -104,6 +108,39 @@ class Game():
         away = "Away: {}| Total:{}| 1Q: {}| 2Q: {}| 3Q: {}| 4Q: {}".format(self.away_team, self.away_total_score, self.away1Q, self.away2Q, self.away3Q, self.away4Q)
         return date + '\n' + home + '\n' + away
 
+
+    def table_rep(self):
+        team_box_score_diction = []
+        home_abbre = self.home_team.split(' ')[-1].strip('(').strip(')')
+        away_abbre = self.away_team.split(' ')[-1].strip('(').strip(')')
+        match1 = "{}|{}".format(home_abbre, away_abbre)
+        match2 = "{}|{}".format(away_abbre, home_abbre)
+
+        Home = {}
+        Home["DATE"] = self.date
+        Home["MATCH"] = match1
+        Home["TEAM"] = "{}".format(self.home_team)
+        Home["Q1"] = self.home1Q
+        Home["Q2"] = self.home2Q
+        Home["Q3"] = self.home3Q
+        Home["Q4"] = self.home4Q
+        Home["TOTAL"] = self.home_total_score
+        team_box_score_diction.append(Home)
+
+        Away = {}
+        Away["DATE"] = self.date
+        Away["MATCH"] = match2
+        Away["TEAM"] = "{}".format(self.away_team)
+        Away["Q1"] = self.away1Q
+        Away["Q2"] = self.away2Q
+        Away["Q3"] = self.away3Q
+        Away["Q4"] = self.away4Q
+        Away["TOTAL"] = self.away_total_score
+        team_box_score_diction.append(Away)
+
+        return team_box_score_diction
+
+
 def get_games_info():
     base_url = "https://allsportsapi.com/api/basketball/?"
     api_key = all_sports_api
@@ -135,7 +172,7 @@ def get_games_info():
     games_dict = json.loads(daily_game_text)
     list_of_games = games_dict["result"]
     list_of_game_objects = []
-    for game in list_of_games:
+    for game in list_of_games[3:]:
         event_date = game["event_date"]
         home_team = "{} ({})".format(game["event_home_team"], NBA_Teams[game["event_home_team"]])
         # print(home_team)
@@ -196,6 +233,22 @@ class Player():
             s = "In this game, {} got {} points, {} rebounds, {} assists in {} minutes".format(self.name, self.pts, self.reb, self.ast, self.min.split(':')[0])
         return s
 
+
+
+    def table_rep(self):
+        player_diction = {}
+        player_diction["Team"] = self.team
+        if self.no != '':
+            player_diction["No"] = self.no
+        else:
+            player_diction["No"] = -1
+        player_diction["Name"] = self.name
+        player_diction["Position"] = self.position
+        player_diction["Height"] = self.height
+        player_diction["Weight"] = self.weight
+
+        return player_diction
+
 def checked(game):
     for match in NBA_Matches.items():
         if game == match:
@@ -211,10 +264,12 @@ def get_player_info(home_team_abbr, away_team_abbr):
     # 2018-12-02
     box_score_date1 = time_today_id.replace('-', '')
     box_score_date2 = time_yesterday_id.replace('-', '')
+    box_score_date3 = time_2days_before_id.replace('-', '')
     # away_team_abbr = away_team_abbr.upper()
     # home_team_abbr = home_team_abbr.upper()
     box_score_url1 = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(box_score_date1, home_team_abbr)
     box_score_url2 = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(box_score_date2, home_team_abbr)
+    box_score_url3 = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(box_score_date3, home_team_abbr)
     box_score_id = "{} vs {}".format(away_team_abbr, home_team_abbr)
 
     cache_file = "box_score_id.json"
@@ -227,14 +282,19 @@ def get_player_info(home_team_abbr, away_team_abbr):
         # print("box_score_response_text1: {}".format(box_score_response_text1))
         # print("##############################################################")
         box_score_response_status2 = requests.get(box_score_url2).status_code
+        box_score_response_status3 = requests.get(box_score_url3).status_code
         # print("box_score_response_text2: {}".format(box_score_response_text2))
         if box_score_response_status1 == 200:
             box_score_url = box_score_url1
             box_score_response_text = requests.get(box_score_url1).text
-        else:
+        elif box_score_response_status2 == 200:
             box_score_url = box_score_url2
             box_score_response_text = requests.get(box_score_url2).text
+        else:
+            box_score_url = box_score_url3
+            box_score_response_text = requests.get(box_score_url3).text
 
+        print(box_score_url)
         cache.set(box_score_id, box_score_response_text, 1)
         print("send resquest to {}".format(box_score_id))
 
@@ -366,50 +426,41 @@ Part 3: A clear visualization of data, Table in PSQL
 '''
 # make_diction_for_psql
 # game.home_team, game.home_total_score, game.home1Q, game.home2Q, game.home3Q, game.home4Q
-def covert_to_game_diction(game):
-    team_box_score_diction = []
-    home_abbre = game.home_team.split(' ')[-1].strip('(').strip(')')
-    away_abbre = game.away_team.split(' ')[-1].strip('(').strip(')')
-    match1 = "{}|{}".format(home_abbre, away_abbre)
-    match2 = "{}|{}".format(away_abbre, home_abbre)
-
-    Home = {}
-    Home["DATE"] = game.date
-    Home["MATCH"] = match1
-    Home["TEAM"] = "{}".format(game.home_team)
-    Home["Q1"] = game.home1Q
-    Home["Q2"] = game.home2Q
-    Home["Q3"] = game.home3Q
-    Home["Q4"] = game.home4Q
-    Home["TOTAL"] = game.home_total_score
-    team_box_score_diction.append(Home)
-
-    Away = {}
-    Away["DATE"] = game.date
-    Away["MATCH"] = match2
-    Away["TEAM"] = "{}".format(game.away_team)
-    Away["Q1"] = game.away1Q
-    Away["Q2"] = game.away2Q
-    Away["Q3"] = game.away3Q
-    Away["Q4"] = game.away4Q
-    Away["TOTAL"] = game.away_total_score
-    team_box_score_diction.append(Away)
-
-    return team_box_score_diction
+# def covert_to_game_diction(game):
+#     team_box_score_diction = []
+#     home_abbre = game.home_team.split(' ')[-1].strip('(').strip(')')
+#     away_abbre = game.away_team.split(' ')[-1].strip('(').strip(')')
+#     match1 = "{}|{}".format(home_abbre, away_abbre)
+#     match2 = "{}|{}".format(away_abbre, home_abbre)
+#
+#     Home = {}
+#     Home["DATE"] = game.date
+#     Home["MATCH"] = match1
+#     Home["TEAM"] = "{}".format(game.home_team)
+#     Home["Q1"] = game.home1Q
+#     Home["Q2"] = game.home2Q
+#     Home["Q3"] = game.home3Q
+#     Home["Q4"] = game.home4Q
+#     Home["TOTAL"] = game.home_total_score
+#     team_box_score_diction.append(Home)
+#
+#     Away = {}
+#     Away["DATE"] = game.date
+#     Away["MATCH"] = match2
+#     Away["TEAM"] = "{}".format(game.away_team)
+#     Away["Q1"] = game.away1Q
+#     Away["Q2"] = game.away2Q
+#     Away["Q3"] = game.away3Q
+#     Away["Q4"] = game.away4Q
+#     Away["TOTAL"] = game.away_total_score
+#     team_box_score_diction.append(Away)
+#
+#     return team_box_score_diction
 
 def covert_to_roster_diction(roster_list):
     list_of_player_diction = []
     for player in roster_list:
-        player_diction = {}
-        player_diction["Team"] = player.team
-        if player.no != '':
-            player_diction["No"] = player.no
-        else:
-            player_diction["No"] = -1
-        player_diction["Name"] = player.name
-        player_diction["Position"] = player.position
-        player_diction["Height"] = player.height
-        player_diction["Weight"] = player.weight
+        player_diction = player.table_rep()
         list_of_player_diction.append(player_diction)
 
     return list_of_player_diction
@@ -436,7 +487,7 @@ except:
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 list_of_games = get_games_info()
 for game in list_of_games:
-    team_box_score_diction = covert_to_game_diction(game)
+    team_box_score_diction = game.table_rep()
     table_name = "BOX_SCORE"
     query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("DATE" VARCHAR(500), "MATCH" VARCHAR(500) PRIMARY KEY, "TEAM" VARCHAR(500), "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "FINAL" INT)'.format(table_name)
     cur.execute(query_for_table)
@@ -444,10 +495,10 @@ for game in list_of_games:
     cur.executemany(sql,team_box_score_diction)
     conn.commit()
 
-    print("________________________________________________________________")
-    print(game)
-    print("----------------------------------------------------------------")
-    print('\n')
+    # print("________________________________________________________________")
+    # print(game)
+    # print("----------------------------------------------------------------")
+    # print('\n')
 
 ### AND DONE
 conn.close()
@@ -509,32 +560,34 @@ for team_name in NBA_Teams.values():
 conn.close()
 
 
-# A = "IND"
-# A = A.upper()
-# B = "CHI"
-# B = B.upper()
-#
-# input_match = (A, B)
-# ## First check if the match exist within this two days
-# if checked(input_match) == False:
-#     print("This match does not exist")
-# else:
-#     list_of_players = get_player_info(A, B)
-#     list_of_home_players = list_of_players[0]
-#     list_of_away_players = list_of_players[1]
-#     print("HOME: {}".format(A))
-#     print("############STARTERS#############")
-#     for home_player in list_of_home_players:
-#         if home_player != 0:
-#             print(home_player.__str__("stats"))
-#         else:
-#             print("****BENCHES****")
-#     print('#################################')
-#
-#     print("AWAY: {}".format(B))
-#     print("############STARTERS#############")
-#     for away_player in list_of_away_players:
-#         if away_player != 0:
-#             print(away_player.__str__("stats"))
-#         else:
-#             print("****BENCHES****")
+A = "TOR"
+A = A.upper()
+B = "PHI"
+B = B.upper()
+
+input_match = (A, B)
+## First check if the match exist within this two days
+if checked(input_match) == False:
+    print("This match does not exist")
+else:
+    list_of_players = get_player_info(A, B)
+    list_of_home_players = list_of_players[0]
+    list_of_away_players = list_of_players[1]
+    print("HOME: {}".format(A))
+    print("############STARTERS#############")
+    for home_player in list_of_home_players:
+        if home_player != 0:
+            print(home_player.__str__("stats"))
+        else:
+            print("****BENCHES****")
+    print('#################################')
+
+    print("AWAY: {}".format(B))
+    print("############STARTERS#############")
+    for away_player in list_of_away_players:
+        if away_player != 0:
+            print(away_player.__str__("stats"))
+        else:
+            print("****BENCHES****")
+
+print(NBA_Matches)
