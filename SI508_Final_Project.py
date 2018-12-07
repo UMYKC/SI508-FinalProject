@@ -175,7 +175,8 @@ Player
 #####################################################
 '''
 class Player():
-    def __init__(self, name, min = 0, point = 0, rebound = 0, assist = 0, steal = 0, block = 0, no = -1, position = "PG", height = "7-0", weight = 230):
+    def __init__(self, team, name, min = 0, point = 0, rebound = 0, assist = 0, steal = 0, block = 0, no = -1, position = "PG", height = "7-0", weight = 230):
+        self.team = team
         self.name = name
         self.min = min
         self.pts = point
@@ -190,7 +191,7 @@ class Player():
 
     def __str__(self, arg = "Team"):
         if arg == "Team":
-            s = "No.{}, {}, Pos: {}, Ht: {}, Wt: {}".format(self.no, self.name, self.position, self.height, self.weight)
+            s = "Team: {}, No.{}, {}, Pos: {}, Ht: {}, Wt: {}".format(self.team, self.no, self.name, self.position, self.height, self.weight)
         else:
             s = "In this game, {} got {} points, {} rebounds, {} assists in {} minutes".format(self.name, self.pts, self.reb, self.ast, self.min.split(':')[0])
         return s
@@ -264,7 +265,7 @@ def get_player_info(home_team_abbr, away_team_abbr):
             asts = player_info[13].text
             stls = player_info[14].text
             blks = player_info[15].text
-            player = Player(name, min, pts, asts, rebs, stls, blks)
+            player = Player(away_team_abbr, name, min, pts, asts, rebs, stls, blks)
             list_of_away_player.append(player)
         except:
             if away_count == 0:
@@ -284,7 +285,7 @@ def get_player_info(home_team_abbr, away_team_abbr):
             asts = player_info[13].text
             stls = player_info[14].text
             blks = player_info[15].text
-            player = Player(name, min, pts, asts, rebs, stls, blks)
+            player = Player(home_team_abbr, name, min, pts, asts, rebs, stls, blks)
             list_of_home_player.append(player)
         except:
             if home_count == 0:
@@ -349,7 +350,7 @@ def get_players_for_the_team(team_name_abbre):
         player_position = player_info[1].text
         player_height = player_info[2].text
         player_weight = player_info[3].text
-        player = Player(player_name, no = player_no, position = player_position, height = player_height, weight = player_weight)
+        player = Player(team_name_abbre, player_name, no = player_no, position = player_position, height = player_height, weight = player_weight)
         roster_list.append(player)
 
     return roster_list
@@ -367,7 +368,14 @@ Part 3: A clear visualization of data, Table in PSQL
 # game.home_team, game.home_total_score, game.home1Q, game.home2Q, game.home3Q, game.home4Q
 def covert_to_game_diction(game):
     team_box_score_diction = []
+    home_abbre = game.home_team.split(' ')[-1].strip('(').strip(')')
+    away_abbre = game.away_team.split(' ')[-1].strip('(').strip(')')
+    match1 = "{}|{}".format(home_abbre, away_abbre)
+    match2 = "{}|{}".format(away_abbre, home_abbre)
+
     Home = {}
+    Home["DATE"] = game.date
+    Home["MATCH"] = match1
     Home["TEAM"] = "{}".format(game.home_team)
     Home["Q1"] = game.home1Q
     Home["Q2"] = game.home2Q
@@ -377,6 +385,8 @@ def covert_to_game_diction(game):
     team_box_score_diction.append(Home)
 
     Away = {}
+    Away["DATE"] = game.date
+    Away["MATCH"] = match2
     Away["TEAM"] = "{}".format(game.away_team)
     Away["Q1"] = game.away1Q
     Away["Q2"] = game.away2Q
@@ -388,20 +398,21 @@ def covert_to_game_diction(game):
     return team_box_score_diction
 
 def covert_to_roster_diction(roster_list):
-    list_of_roster_diction = []
-    for roster in roster_list:
-        roster_diction = {}
-        if roster.no != '':
-            roster_diction["No"] = roster.no
+    list_of_player_diction = []
+    for player in roster_list:
+        player_diction = {}
+        player_diction["Team"] = player.team
+        if player.no != '':
+            player_diction["No"] = player.no
         else:
-            roster_diction["No"] = -1
-        roster_diction["Name"] = roster.name
-        roster_diction["Position"] = roster.position
-        roster_diction["Height"] = roster.height
-        roster_diction["Weight"] = roster.weight
-        list_of_roster_diction.append(roster_diction)
+            player_diction["No"] = -1
+        player_diction["Name"] = player.name
+        player_diction["Position"] = player.position
+        player_diction["Height"] = player.height
+        player_diction["Weight"] = player.weight
+        list_of_player_diction.append(player_diction)
 
-    return list_of_roster_diction
+    return list_of_player_diction
 
 
 
@@ -416,7 +427,7 @@ Part 4: Run code
 '''
 ## Set up database
 try:
-    conn = psycopg2.connect("dbname='NBA_BOXSCORE' user='kerrychou'")
+    conn = psycopg2.connect("dbname='NBA_DB' user='kerrychou'")
     print("Success connecting to database")
 except:
     print("Unable to connect to the database. Check server and credentials.")
@@ -426,10 +437,10 @@ cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 list_of_games = get_games_info()
 for game in list_of_games:
     team_box_score_diction = covert_to_game_diction(game)
-    table_name = "{}_{}".format(game.home_team.split(' ')[-2], game.away_team.split(' ')[-2])
-    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("TEAM" VARCHAR(500) PRIMARY KEY, "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "FINAL" INT)'.format(table_name)
+    table_name = "BOX_SCORE"
+    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("DATE" VARCHAR(500), "MATCH" VARCHAR(500) PRIMARY KEY, "TEAM" VARCHAR(500), "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "FINAL" INT)'.format(table_name)
     cur.execute(query_for_table)
-    sql = 'INSERT INTO "{}" VALUES (%(TEAM)s, %(Q1)s, %(Q2)s, %(Q3)s, %(Q4)s, %(TOTAL)s) ON CONFLICT DO NOTHING'.format(table_name)
+    sql = 'INSERT INTO "{}" VALUES (%(DATE)s, %(MATCH)s, %(TEAM)s, %(Q1)s, %(Q2)s, %(Q3)s, %(Q4)s, %(TOTAL)s) ON CONFLICT DO NOTHING'.format(table_name)
     cur.executemany(sql,team_box_score_diction)
     conn.commit()
 
@@ -444,7 +455,7 @@ conn.close()
 
 ## Set up database
 try:
-    conn = psycopg2.connect("dbname='NBA_ROSTER' user='kerrychou'")
+    conn = psycopg2.connect("dbname='NBA_DB' user='kerrychou'")
     print("Success connecting to database")
 except:
     print("Unable to connect to the database. Check server and credentials.")
@@ -453,21 +464,46 @@ except:
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 ### get team roster
-team_name = "LAC"
-roster_list = get_players_for_the_team(team_name)
-for player in roster_list:
-    print(player)
-list_of_roster_diction = covert_to_roster_diction(roster_list)
-# for roster_diction in list_of_roster_diction:
-#     print(roster_diction)
-# print(len(list_of_roster_diction))
-table_name = "{}".format(team_name)
-query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("NO" INT, "Player" VARCHAR(500) PRIMARY KEY, "Position" VARCHAR(500), "Height" VARCHAR(500), "Weight" INT)'.format(table_name)
-cur.execute(query_for_table)
-sql = 'INSERT INTO "{}" VALUES (%(No)s, %(Name)s, %(Position)s, %(Height)s, %(Weight)s) ON CONFLICT DO NOTHING'.format(table_name)
-cur.executemany(sql, list_of_roster_diction)
-conn.commit()
-
+for team_name in NBA_Teams.values():
+    try:
+        roster_list = get_players_for_the_team(team_name)
+        list_of_player_diction = covert_to_roster_diction(roster_list)
+        # for player in roster_list:
+        #     print(player)
+        # table_name = "{}".format(team_name)
+        table_name = "Player_Info"
+        query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("Team" VARCHAR(500), "NO" INT, "Player" VARCHAR(500) PRIMARY KEY, "Position" VARCHAR(500), "Height" VARCHAR(500), "Weight" INT)'.format(table_name)
+        cur.execute(query_for_table)
+        sql = 'INSERT INTO "{}" VALUES (%(Team)s, %(No)s, %(Name)s, %(Position)s, %(Height)s, %(Weight)s) ON CONFLICT DO NOTHING'.format(table_name)
+        cur.executemany(sql, list_of_player_diction)
+        conn.commit()
+    except:
+        if team_name == "BKN":
+            roster_list = get_players_for_the_team("BRK")
+            list_of_player_diction = covert_to_roster_diction(roster_list)
+            # for player in roster_list:
+            #     print(player)
+            # table_name = "{}".format(team_name)
+            table_name = "Player_Info"
+            query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("Team" VARCHAR(500), "NO" INT, "Player" VARCHAR(500) PRIMARY KEY, "Position" VARCHAR(500), "Height" VARCHAR(500), "Weight" INT)'.format(table_name)
+            cur.execute(query_for_table)
+            sql = 'INSERT INTO "{}" VALUES (%(Team)s, %(No)s, %(Name)s, %(Position)s, %(Height)s, %(Weight)s) ON CONFLICT DO NOTHING'.format(table_name)
+            cur.executemany(sql, list_of_player_diction)
+            conn.commit()
+        elif team_name == "PHX":
+            roster_list = get_players_for_the_team("PHO")
+            list_of_player_diction = covert_to_roster_diction(roster_list)
+            # for player in roster_list:
+            #     print(player)
+            # table_name = "{}".format(team_name)
+            table_name = "Player_Info"
+            query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("Team" VARCHAR(500), "NO" INT, "Player" VARCHAR(500) PRIMARY KEY, "Position" VARCHAR(500), "Height" VARCHAR(500), "Weight" INT)'.format(table_name)
+            cur.execute(query_for_table)
+            sql = 'INSERT INTO "{}" VALUES (%(Team)s, %(No)s, %(Name)s, %(Position)s, %(Height)s, %(Weight)s) ON CONFLICT DO NOTHING'.format(table_name)
+            cur.executemany(sql, list_of_player_diction)
+            conn.commit()
+        else:
+            print("Cannot get players' info from {} ".format(team_name))
 
 ### AND DONE
 conn.close()
