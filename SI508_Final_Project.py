@@ -8,6 +8,7 @@ import requests
 from datetime import datetime, timedelta
 import psycopg2, psycopg2.extras
 import json
+import sys # for exit program mgmt
 
 DATETIME_FORMAT = "%Y-%m-%d"
 ## the dates within these three days
@@ -374,7 +375,7 @@ except:
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 table_name = "BOX_SCORE"
 cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
-query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("DATE" VARCHAR(500), "MATCH" VARCHAR(500) PRIMARY KEY, "TEAM" VARCHAR(500), "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "FINAL" INT)'.format(table_name)
+query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("DATE" VARCHAR(500), "MATCH" VARCHAR(500) PRIMARY KEY, "TEAM" VARCHAR(500) PRIMARY KEY, "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "FINAL" INT)'.format(table_name)
 cur.execute(query_for_table)
 list_of_games = get_games_info()
 for game in list_of_games:
