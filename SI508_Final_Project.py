@@ -62,7 +62,7 @@ NBA_Teams["Toronto Raptors"] = "TOR"
 NBA_Teams["Utah Jazz"] = "UTA"
 NBA_Teams["Washington Wizards"] = "WAS"
 
-NBA_Matches = {}
+NBA_Matches = []
 
 '''
 https://paper.dropbox.com/doc/SI-508-Final-Project-Proposal--ASGPsji2Z6NUcZx0M3yV5sNxAg-cflJKwQwD6IWpMUmwhfqQ
@@ -98,7 +98,8 @@ def get_games_info():
         cache.set(time_today_id, daily_game_text, 1)
         print("send requests")
     else:
-        print("already in cache")
+        pass
+        # print("already in cache")
 
         # url = requests.get(base_url, para_dict).url
 
@@ -115,16 +116,17 @@ def get_games_info():
         # print(home_team)
         away_team = "{} ({})".format(game["event_away_team"], NBA_Teams[game["event_away_team"]])
         # print(away_team)
-        NBA_Matches[NBA_Teams[game["event_home_team"]]] = NBA_Teams[game["event_away_team"]]
+        Match = (NBA_Teams[game["event_home_team"]], NBA_Teams[game["event_away_team"]])
+        NBA_Matches.append(Match)
         home_score = []
         away_score = []
         final_score = game["event_final_result"].split('-')
-        try:
+        if final_score[0] != '' and final_score[1] != '':
             home_team_final_score = final_score[0]
             away_team_final_score = final_score[1]
             home_score.append(home_team_final_score)
             away_score.append(away_team_final_score)
-        except:
+        else:
             home_score.append(0)
             away_score.append(0)
         # print([home_team_final_score, away_team_final_score])
@@ -149,7 +151,7 @@ Player
 #####################################################
 '''
 def checked(game):
-    for match in NBA_Matches.items():
+    for match in NBA_Matches:
         if game == match:
             return True
 
@@ -266,20 +268,8 @@ scraping example https://www.nba.com/games/20181201/BKNWAS#/boxscore
 #####################################################
 Part 2: Functions
 <1> get_players_for_the_team()
-<2> get_wins_and_loses_to_date()
 #####################################################
 '''
-# class Roster():
-#     def __init__(self, name, no, position, height, weight):
-#         self.name = name
-#         self.no = no
-#         self.position = position
-#         self.height = height
-#         self.weight = weight
-#
-#     def __str__(self):
-#         s = "No.{}, {}, Pos: {}, Ht: {}, Wt: {}".format(self.no, self.name, self.position, self.height, self.weight)
-#         return s
 
 def get_players_for_the_team(team_name_abbre):
     team_id = "{}".format(team_name_abbre)
@@ -298,10 +288,11 @@ def get_players_for_the_team(team_name_abbre):
         # response is a string
         team_response_text = requests.get(team_url).text
         cache.set(team_id, team_response_text, 1)
-        print("send resquest to {}".format(team_id))
+        # print("send resquest to {}".format(team_id))
 
     else:
-        print("{} is already in cache".format(team_id))
+        pass
+        # print("{} is already in cache".format(team_id))
 
 
     team_roster_soup = BeautifulSoup(team_response_text, 'html.parser')
@@ -365,91 +356,94 @@ Part 4: Run code
 #####################################################
 '''
 # Set up database
-try:
-    conn = psycopg2.connect("dbname='NBA_DB' user='kerrychou'")
-    print("Success connecting to database")
-except:
-    print("Unable to connect to the database. Check server and credentials.")
-    sys.exit(1)
-
-cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-table_name = "BOX_SCORE"
-cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
-query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("DATE" VARCHAR(500), "MATCH" VARCHAR(500) PRIMARY KEY, "TEAM" VARCHAR(500) PRIMARY KEY, "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "FINAL" INT)'.format(table_name)
-cur.execute(query_for_table)
-list_of_games = get_games_info()
-for game in list_of_games:
-    team_box_score_diction = game.table_rep()
-    sql = 'INSERT INTO "{}" VALUES (%(DATE)s, %(MATCH)s, %(TEAM)s, %(Q1)s, %(Q2)s, %(Q3)s, %(Q4)s, %(TOTAL)s) ON CONFLICT DO NOTHING'.format(table_name)
-    cur.executemany(sql,team_box_score_diction)
-    conn.commit()
-
-    # print("________________________________________________________________")
-    # print(game)
-    # print("----------------------------------------------------------------")
-    # print('\n')
-
-### AND DONE
-conn.close()
-
-
-## Set up database
-try:
-    conn = psycopg2.connect("dbname='NBA_DB' user='kerrychou'")
-    print("Success connecting to database")
-except:
-    print("Unable to connect to the database. Check server and credentials.")
-    sys.exit(1)
-
-cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-table_name = "PLAYER_INFO"
-cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
-query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("TEAM" VARCHAR(500), "NO" INT, "PLAYER" VARCHAR(500) PRIMARY KEY, "POSITION" VARCHAR(500), "HEIGHT" VARCHAR(500), "WEIGHT" INT)'.format(table_name)
-cur.execute(query_for_table)
-
-### get team roster
-for team_name in NBA_Teams.values():
+if __name__ == "__main__":
     try:
-        roster_list = get_players_for_the_team(team_name)
-        list_of_player_diction = covert_to_roster_diction(roster_list)
-        # for player in roster_list:
-        #     print(player)
-        # table_name = "{}".format(team_name)
-        sql = 'INSERT INTO "{}" VALUES (%(Team)s, %(No)s, %(Name)s, %(Position)s, %(Height)s, %(Weight)s) ON CONFLICT DO NOTHING'.format(table_name)
-        cur.executemany(sql, list_of_player_diction)
-        conn.commit()
+        conn = psycopg2.connect("dbname='NBA_DB' user='kerrychou'")
+        print("Success connecting to database")
     except:
-        print("Cannot get players' info from {} ".format(team_name))
+        print("Unable to connect to the database. Check server and credentials.")
+        sys.exit(1)
 
-### AND DONE
-conn.close()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    table_name = "BOX_SCORE"
+    cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
+    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("DATE" VARCHAR(500), "MATCH" VARCHAR(500) PRIMARY KEY, "TEAM" VARCHAR(500), "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "FINAL" INT)'.format(table_name)
+    cur.execute(query_for_table)
+    list_of_games = get_games_info()
+    for game in list_of_games:
+        team_box_score_diction = game.table_rep()
+        sql = 'INSERT INTO "{}" VALUES (%(DATE)s, %(MATCH)s, %(TEAM)s, %(Q1)s, %(Q2)s, %(Q3)s, %(Q4)s, %(TOTAL)s) ON CONFLICT DO NOTHING'.format(table_name)
+        cur.executemany(sql,team_box_score_diction)
+        conn.commit()
 
-## Set up database
-try:
-    conn = psycopg2.connect("dbname='NBA_DB' user='kerrychou'")
-    print("Success connecting to database")
-except:
-    print("Unable to connect to the database. Check server and credentials.")
-    sys.exit(1)
+        # print("________________________________________________________________")
+        # print(game)
+        # print("----------------------------------------------------------------")
+        # print('\n')
 
-cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-table_name = "PLAYER_STATS"
-cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
-query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("MATCH" VARCHAR(500), "TEAM" VARCHAR(500), "PLAYER" VARCHAR(500) PRIMARY KEY, "MIN" VARCHAR(500), "PTS" INT, "REB" INT, "AST" INT, "STL" INT, "BLK" INT)'.format(table_name)
-cur.execute(query_for_table)
-
-for match in NBA_Matches.items():
-    player_stats_in_match = get_player_stats(match[0], match[1])
-    list_of_player_stats_diction = convert_to_players_stats_dict(player_stats_in_match)
-    for player_diction in list_of_player_stats_diction:
-        player_diction["MATCH"] = "{}|{}".format(match[0], match[1])
-    sql = 'INSERT INTO "{}" VALUES (%(MATCH)s, %(Team)s, %(Name)s, %(MIN)s, %(PTS)s, %(REB)s, %(AST)s, %(STL)s, %(BLK)s) ON CONFLICT DO NOTHING'.format(table_name)
-    cur.executemany(sql, list_of_player_stats_diction)
-    conn.commit()
+    ### AND DONE
+    conn.close()
 
 
-### AND DONE
-conn.close()
+    ## Set up database
+    try:
+        conn = psycopg2.connect("dbname='NBA_DB' user='kerrychou'")
+        print("Success connecting to database")
+    except:
+        print("Unable to connect to the database. Check server and credentials.")
+        sys.exit(1)
+
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    table_name = "PLAYER_INFO"
+    cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
+    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("TEAM" VARCHAR(500), "NO" INT, "PLAYER" VARCHAR(500) PRIMARY KEY, "POSITION" VARCHAR(500), "HEIGHT" VARCHAR(500), "WEIGHT" INT)'.format(table_name)
+    cur.execute(query_for_table)
+
+    ### get team roster
+    for team_name in NBA_Teams.values():
+        try:
+            roster_list = get_players_for_the_team(team_name)
+            list_of_player_diction = covert_to_roster_diction(roster_list)
+            # for player in roster_list:
+            #     print(player)
+            # table_name = "{}".format(team_name)
+            sql = 'INSERT INTO "{}" VALUES (%(Team)s, %(No)s, %(Name)s, %(Position)s, %(Height)s, %(Weight)s) ON CONFLICT DO NOTHING'.format(table_name)
+            cur.executemany(sql, list_of_player_diction)
+            conn.commit()
+        except:
+            print("Cannot get players' info from {} ".format(team_name))
+
+    ### AND DONE
+    conn.close()
+
+    ## Set up database
+    try:
+        conn = psycopg2.connect("dbname='NBA_DB' user='kerrychou'")
+        print("Success connecting to database")
+    except:
+        print("Unable to connect to the database. Check server and credentials.")
+        sys.exit(1)
+
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    table_name = "PLAYER_STATS"
+    cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
+    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("MATCH" VARCHAR(500), "TEAM" VARCHAR(500), "PLAYER" VARCHAR(500) PRIMARY KEY, "MIN" VARCHAR(500), "PTS" INT, "REB" INT, "AST" INT, "STL" INT, "BLK" INT)'.format(table_name)
+    cur.execute(query_for_table)
+
+    for match in NBA_Matches:
+        player_stats_in_match = get_player_stats(match[0], match[1])
+        list_of_player_stats_diction = convert_to_players_stats_dict(player_stats_in_match)
+        for player_diction in list_of_player_stats_diction:
+            player_diction["MATCH"] = "{}|{}".format(match[0], match[1])
+        sql = 'INSERT INTO "{}" VALUES (%(MATCH)s, %(Team)s, %(Name)s, %(MIN)s, %(PTS)s, %(REB)s, %(AST)s, %(STL)s, %(BLK)s) ON CONFLICT DO NOTHING'.format(table_name)
+        cur.executemany(sql, list_of_player_stats_diction)
+        conn.commit()
+
+
+    ### AND DONE
+    conn.close()
+
+
 
 # A = "MIL"
 # A = A.upper()
