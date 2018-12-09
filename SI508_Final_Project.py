@@ -2,23 +2,24 @@
 
 from bs4 import BeautifulSoup
 from alternate_advanced_caching import Cache
+from secrets import all_sports_api
+from Class import Game, Player
 import requests
 from datetime import datetime, timedelta
-from secrets import all_sports_api
 import psycopg2, psycopg2.extras
-import sys # for exit program mgmt
 import json
 
 DATETIME_FORMAT = "%Y-%m-%d"
-# time_delta = timedelta(days = 1)
+## the dates within these three days
+list_of_time_id = []
 time_today = datetime.today()
 time_today_id = time_today.strftime(DATETIME_FORMAT)
 time_delta = timedelta(days = 1)
-time_yesterday = time_today - time_delta
-time_yesterday_id = time_yesterday.strftime(DATETIME_FORMAT)
-time_2days_before = time_yesterday - time_delta
-time_2days_before_id = time_2days_before.strftime(DATETIME_FORMAT)
+for i in range(3):
+    time_id = (time_today - i*time_delta).strftime(DATETIME_FORMAT)
+    list_of_time_id.append(time_id)
 
+# print(list_of_time_id)
 
 #################################
 
@@ -27,12 +28,6 @@ time_2days_before_id = time_2days_before.strftime(DATETIME_FORMAT)
 Part 0: Setup PSQL and NBA Team Abbreviation Dictionary
 ##########################################################
 '''
-
-# cur.execute('CREATE TABLE IF NOT EXISTS "DAL_POR" ("TEAM" VARCHAR(500) PRIMARY KEY, "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "TOTAL" INT)')
-
-
-# DATE_FORMAT_FOR_SCRAPING = "%Y%m%d"
-# time_for_url = datetime.today().strftime(DATE_FORMAT_FOR_SCRAPING)
 
 NBA_Teams = {}
 NBA_Teams["Atlanta Hawks"] = "ATL"
@@ -83,74 +78,15 @@ Game
 #####################################################
 '''
 # home_score is a int list, like [136, 39, 31, 40, 26]
-
-class Game():
-    def __init__(self, event_date, home_team, away_team, home_score, away_score):
-        self.date = event_date
-        self.home_team = home_team
-        self.home_total_score = home_score[0]
-        self.home1Q = home_score[1]
-        self.home2Q = home_score[2]
-        self.home3Q = home_score[3]
-        self.home4Q = home_score[4]
-
-        self.away_team = away_team
-        self.away_total_score = away_score[0]
-        self.away1Q = away_score[1]
-        self.away2Q = away_score[2]
-        self.away3Q = away_score[3]
-        self.away4Q = away_score[4]
-
-
-    def __str__(self):
-        date = self.date
-        home = "Home: {}| Total:{}| 1Q: {}| 2Q: {}| 3Q: {}| 4Q: {}".format(self.home_team, self.home_total_score, self.home1Q, self.home2Q, self.home3Q, self.home4Q)
-        away = "Away: {}| Total:{}| 1Q: {}| 2Q: {}| 3Q: {}| 4Q: {}".format(self.away_team, self.away_total_score, self.away1Q, self.away2Q, self.away3Q, self.away4Q)
-        return date + '\n' + home + '\n' + away
-
-
-    def table_rep(self):
-        team_box_score_diction = []
-        home_abbre = self.home_team.split(' ')[-1].strip('(').strip(')')
-        away_abbre = self.away_team.split(' ')[-1].strip('(').strip(')')
-        match1 = "{}|{}".format(home_abbre, away_abbre)
-        match2 = "{}|{}".format(away_abbre, home_abbre)
-
-        Home = {}
-        Home["DATE"] = self.date
-        Home["MATCH"] = match1
-        Home["TEAM"] = "{}".format(self.home_team)
-        Home["Q1"] = self.home1Q
-        Home["Q2"] = self.home2Q
-        Home["Q3"] = self.home3Q
-        Home["Q4"] = self.home4Q
-        Home["TOTAL"] = self.home_total_score
-        team_box_score_diction.append(Home)
-
-        Away = {}
-        Away["DATE"] = self.date
-        Away["MATCH"] = match2
-        Away["TEAM"] = "{}".format(self.away_team)
-        Away["Q1"] = self.away1Q
-        Away["Q2"] = self.away2Q
-        Away["Q3"] = self.away3Q
-        Away["Q4"] = self.away4Q
-        Away["TOTAL"] = self.away_total_score
-        team_box_score_diction.append(Away)
-
-        return team_box_score_diction
-
-
 def get_games_info():
     base_url = "https://allsportsapi.com/api/basketball/?"
     api_key = all_sports_api
     para_dict = {}
     para_dict["met"] = "Fixtures"
     para_dict["APIkey"] = all_sports_api
-    para_dict["from"]= time_yesterday_id
-    para_dict["to"] = time_today_id
+    para_dict["from"]= list_of_time_id[1]
+    para_dict["to"] = list_of_time_id[0]
     para_dict["leagueId"] = "787" #League ID - if set events from specific league will be returned (Optional)
-
     cache_file = "NBA_Cache.json"
     cache = Cache(cache_file)
     daily_game_text = cache.get(time_today_id)
@@ -172,7 +108,7 @@ def get_games_info():
     games_dict = json.loads(daily_game_text)
     list_of_games = games_dict["result"]
     list_of_game_objects = []
-    for game in list_of_games[3:]:
+    for game in list_of_games:
         event_date = game["event_date"]
         home_team = "{} ({})".format(game["event_home_team"], NBA_Teams[game["event_home_team"]])
         # print(home_team)
@@ -211,44 +147,6 @@ def get_games_info():
 Player
 #####################################################
 '''
-class Player():
-    def __init__(self, team, name, min = 0, point = 0, rebound = 0, assist = 0, steal = 0, block = 0, no = -1, position = "PG", height = "7-0", weight = 230):
-        self.team = team
-        self.name = name
-        self.min = min
-        self.pts = point
-        self.reb = rebound
-        self.ast = assist
-        self.stl = steal
-        self.blk = block
-        self.no = no
-        self.position = position
-        self.height = height
-        self.weight = weight
-
-    def __str__(self, arg = "Team"):
-        if arg == "Team":
-            s = "Team: {}, No.{}, {}, Pos: {}, Ht: {}, Wt: {}".format(self.team, self.no, self.name, self.position, self.height, self.weight)
-        else:
-            s = "In this game, {} got {} points, {} rebounds, {} assists in {} minutes".format(self.name, self.pts, self.reb, self.ast, self.min.split(':')[0])
-        return s
-
-
-
-    def table_rep(self):
-        player_diction = {}
-        player_diction["Team"] = self.team
-        if self.no != '':
-            player_diction["No"] = self.no
-        else:
-            player_diction["No"] = -1
-        player_diction["Name"] = self.name
-        player_diction["Position"] = self.position
-        player_diction["Height"] = self.height
-        player_diction["Weight"] = self.weight
-
-        return player_diction
-
 def checked(game):
     for match in NBA_Matches.items():
         if game == match:
@@ -256,20 +154,8 @@ def checked(game):
 
     return False
 
-def get_player_info(home_team_abbr, away_team_abbr):
+def get_player_stats(home_team_abbr, away_team_abbr):
     # https://www.basketball-reference.com/boxscores/201812020LAL.html
-    # time_today_id = time_today.strftime(DATETIME_FORMAT)
-    # 2018-12-03
-    # time_yesterday_id = time_yesterday.strftime(DATETIME_FORMAT)
-    # 2018-12-02
-    box_score_date1 = time_today_id.replace('-', '')
-    box_score_date2 = time_yesterday_id.replace('-', '')
-    box_score_date3 = time_2days_before_id.replace('-', '')
-    # away_team_abbr = away_team_abbr.upper()
-    # home_team_abbr = home_team_abbr.upper()
-    box_score_url1 = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(box_score_date1, home_team_abbr)
-    box_score_url2 = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(box_score_date2, home_team_abbr)
-    box_score_url3 = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(box_score_date3, home_team_abbr)
     box_score_id = "{} vs {}".format(away_team_abbr, home_team_abbr)
 
     cache_file = "box_score_id.json"
@@ -278,25 +164,39 @@ def get_player_info(home_team_abbr, away_team_abbr):
 
     if box_score_response_text == None:
         # response is a string
-        box_score_response_status1 = requests.get(box_score_url1).status_code
-        # print("box_score_response_text1: {}".format(box_score_response_text1))
-        # print("##############################################################")
-        box_score_response_status2 = requests.get(box_score_url2).status_code
-        box_score_response_status3 = requests.get(box_score_url3).status_code
-        # print("box_score_response_text2: {}".format(box_score_response_text2))
-        if box_score_response_status1 == 200:
-            box_score_url = box_score_url1
-            box_score_response_text = requests.get(box_score_url1).text
-        elif box_score_response_status2 == 200:
-            box_score_url = box_score_url2
-            box_score_response_text = requests.get(box_score_url2).text
+        if home_team_abbr == "PHX":
+            for time_id in list_of_time_id:
+                time_id = time_id.replace('-', '')
+                box_score_url = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(time_id, "PHO")
+                box_score_response_status = requests.get(box_score_url).status_code
+                if box_score_response_status == 200:
+                    print("send resquest to {}".format(box_score_id))
+                    box_score_response_text = requests.get(box_score_url).text
+                else:
+                    pass
+        elif home_team_abbr == "BKN":
+            for time_id in list_of_time_id:
+                time_id = time_id.replace('-', '')
+                box_score_url = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(time_id, "BRK")
+                box_score_response_status = requests.get(box_score_url).status_code
+                if box_score_response_status == 200:
+                    print("send resquest to {}".format(box_score_id))
+                    box_score_response_text = requests.get(box_score_url).text
+                else:
+                    pass
         else:
-            box_score_url = box_score_url3
-            box_score_response_text = requests.get(box_score_url3).text
+            for time_id in list_of_time_id:
+                time_id = time_id.replace('-', '')
+                box_score_url = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(time_id, home_team_abbr)
+                box_score_response_status = requests.get(box_score_url).status_code
+                if box_score_response_status == 200:
+                    print("send resquest to {}".format(box_score_id))
+                    box_score_response_text = requests.get(box_score_url).text
+                else:
+                    pass
 
         print(box_score_url)
         cache.set(box_score_id, box_score_response_text, 1)
-        print("send resquest to {}".format(box_score_id))
 
     else:
         print("{} is already in cache".format(box_score_id))
@@ -381,8 +281,13 @@ Part 2: Functions
 #         return s
 
 def get_players_for_the_team(team_name_abbre):
-    team_url = "https://www.basketball-reference.com/teams/{}/2019.html".format(team_name_abbre)
     team_id = "{}".format(team_name_abbre)
+    if team_name_abbre == "BKN":
+        team_url = "https://www.basketball-reference.com/teams/BRK/2019.html"
+    elif team_name_abbre == "PHX":
+        team_url = "https://www.basketball-reference.com/teams/PHO/2019.html"
+    else:
+        team_url = "https://www.basketball-reference.com/teams/{}/2019.html".format(team_name_abbre)
 
     cache_file = "Team_Roster.json"
     cache = Cache(cache_file)
@@ -397,7 +302,6 @@ def get_players_for_the_team(team_name_abbre):
     else:
         print("{} is already in cache".format(team_id))
 
-    # print(box_score_url)
 
     team_roster_soup = BeautifulSoup(team_response_text, 'html.parser')
     team_roster_table = team_roster_soup.find(class_ = "overthrow table_container").tbody
@@ -424,39 +328,6 @@ Part 3: A clear visualization of data, Table in PSQL
 <1> Make dictionary for create table
 #####################################################
 '''
-# make_diction_for_psql
-# game.home_team, game.home_total_score, game.home1Q, game.home2Q, game.home3Q, game.home4Q
-# def covert_to_game_diction(game):
-#     team_box_score_diction = []
-#     home_abbre = game.home_team.split(' ')[-1].strip('(').strip(')')
-#     away_abbre = game.away_team.split(' ')[-1].strip('(').strip(')')
-#     match1 = "{}|{}".format(home_abbre, away_abbre)
-#     match2 = "{}|{}".format(away_abbre, home_abbre)
-#
-#     Home = {}
-#     Home["DATE"] = game.date
-#     Home["MATCH"] = match1
-#     Home["TEAM"] = "{}".format(game.home_team)
-#     Home["Q1"] = game.home1Q
-#     Home["Q2"] = game.home2Q
-#     Home["Q3"] = game.home3Q
-#     Home["Q4"] = game.home4Q
-#     Home["TOTAL"] = game.home_total_score
-#     team_box_score_diction.append(Home)
-#
-#     Away = {}
-#     Away["DATE"] = game.date
-#     Away["MATCH"] = match2
-#     Away["TEAM"] = "{}".format(game.away_team)
-#     Away["Q1"] = game.away1Q
-#     Away["Q2"] = game.away2Q
-#     Away["Q3"] = game.away3Q
-#     Away["Q4"] = game.away4Q
-#     Away["TOTAL"] = game.away_total_score
-#     team_box_score_diction.append(Away)
-#
-#     return team_box_score_diction
-
 def covert_to_roster_diction(roster_list):
     list_of_player_diction = []
     for player in roster_list:
@@ -466,9 +337,25 @@ def covert_to_roster_diction(roster_list):
     return list_of_player_diction
 
 
+def convert_to_players_stats_dict(player_stats_in_match):
+    list_of_player_stats_diction = []
+    list_of_home_player = player_stats_in_match[0]
+    list_of_away_player = player_stats_in_match[1]
+    for home_player in list_of_home_player:
+        if home_player != 0:
+            player_stats_diction = home_player.table_rep("Stats")
+            list_of_player_stats_diction.append(player_stats_diction)
+        else:
+            pass
 
+    for away_player in list_of_away_player:
+        if away_player != 0:
+            player_stats_diction = away_player.table_rep("Stats")
+            list_of_player_stats_diction.append(player_stats_diction)
+        else:
+            pass
 
-
+    return list_of_player_stats_diction
 
 
 '''
@@ -476,7 +363,7 @@ def covert_to_roster_diction(roster_list):
 Part 4: Run code
 #####################################################
 '''
-## Set up database
+# Set up database
 try:
     conn = psycopg2.connect("dbname='NBA_DB' user='kerrychou'")
     print("Success connecting to database")
@@ -485,12 +372,13 @@ except:
     sys.exit(1)
 
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+table_name = "BOX_SCORE"
+cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
+query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("DATE" VARCHAR(500), "MATCH" VARCHAR(500) PRIMARY KEY, "TEAM" VARCHAR(500), "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "FINAL" INT)'.format(table_name)
+cur.execute(query_for_table)
 list_of_games = get_games_info()
 for game in list_of_games:
     team_box_score_diction = game.table_rep()
-    table_name = "BOX_SCORE"
-    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("DATE" VARCHAR(500), "MATCH" VARCHAR(500) PRIMARY KEY, "TEAM" VARCHAR(500), "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "FINAL" INT)'.format(table_name)
-    cur.execute(query_for_table)
     sql = 'INSERT INTO "{}" VALUES (%(DATE)s, %(MATCH)s, %(TEAM)s, %(Q1)s, %(Q2)s, %(Q3)s, %(Q4)s, %(TOTAL)s) ON CONFLICT DO NOTHING'.format(table_name)
     cur.executemany(sql,team_box_score_diction)
     conn.commit()
@@ -513,6 +401,10 @@ except:
     sys.exit(1)
 
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+table_name = "PLAYER_INFO"
+cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
+query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("TEAM" VARCHAR(500), "NO" INT, "PLAYER" VARCHAR(500) PRIMARY KEY, "POSITION" VARCHAR(500), "HEIGHT" VARCHAR(500), "WEIGHT" INT)'.format(table_name)
+cur.execute(query_for_table)
 
 ### get team roster
 for team_name in NBA_Teams.values():
@@ -522,72 +414,75 @@ for team_name in NBA_Teams.values():
         # for player in roster_list:
         #     print(player)
         # table_name = "{}".format(team_name)
-        table_name = "Player_Info"
-        query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("Team" VARCHAR(500), "NO" INT, "Player" VARCHAR(500) PRIMARY KEY, "Position" VARCHAR(500), "Height" VARCHAR(500), "Weight" INT)'.format(table_name)
-        cur.execute(query_for_table)
         sql = 'INSERT INTO "{}" VALUES (%(Team)s, %(No)s, %(Name)s, %(Position)s, %(Height)s, %(Weight)s) ON CONFLICT DO NOTHING'.format(table_name)
         cur.executemany(sql, list_of_player_diction)
         conn.commit()
     except:
-        if team_name == "BKN":
-            roster_list = get_players_for_the_team("BRK")
-            list_of_player_diction = covert_to_roster_diction(roster_list)
-            # for player in roster_list:
-            #     print(player)
-            # table_name = "{}".format(team_name)
-            table_name = "Player_Info"
-            query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("Team" VARCHAR(500), "NO" INT, "Player" VARCHAR(500) PRIMARY KEY, "Position" VARCHAR(500), "Height" VARCHAR(500), "Weight" INT)'.format(table_name)
-            cur.execute(query_for_table)
-            sql = 'INSERT INTO "{}" VALUES (%(Team)s, %(No)s, %(Name)s, %(Position)s, %(Height)s, %(Weight)s) ON CONFLICT DO NOTHING'.format(table_name)
-            cur.executemany(sql, list_of_player_diction)
-            conn.commit()
-        elif team_name == "PHX":
-            roster_list = get_players_for_the_team("PHO")
-            list_of_player_diction = covert_to_roster_diction(roster_list)
-            # for player in roster_list:
-            #     print(player)
-            # table_name = "{}".format(team_name)
-            table_name = "Player_Info"
-            query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("Team" VARCHAR(500), "NO" INT, "Player" VARCHAR(500) PRIMARY KEY, "Position" VARCHAR(500), "Height" VARCHAR(500), "Weight" INT)'.format(table_name)
-            cur.execute(query_for_table)
-            sql = 'INSERT INTO "{}" VALUES (%(Team)s, %(No)s, %(Name)s, %(Position)s, %(Height)s, %(Weight)s) ON CONFLICT DO NOTHING'.format(table_name)
-            cur.executemany(sql, list_of_player_diction)
-            conn.commit()
-        else:
-            print("Cannot get players' info from {} ".format(team_name))
+        print("Cannot get players' info from {} ".format(team_name))
 
 ### AND DONE
 conn.close()
 
+## Set up database
+try:
+    conn = psycopg2.connect("dbname='NBA_DB' user='kerrychou'")
+    print("Success connecting to database")
+except:
+    print("Unable to connect to the database. Check server and credentials.")
+    sys.exit(1)
 
-A = "TOR"
-A = A.upper()
-B = "PHI"
-B = B.upper()
+cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+table_name = "PLAYER_STATS"
+cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
+query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("MATCH" VARCHAR(500), "TEAM" VARCHAR(500), "PLAYER" VARCHAR(500) PRIMARY KEY, "MIN" VARCHAR(500), "PTS" INT, "REB" INT, "AST" INT, "STL" INT, "BLK" INT)'.format(table_name)
+cur.execute(query_for_table)
 
-input_match = (A, B)
-## First check if the match exist within this two days
-if checked(input_match) == False:
-    print("This match does not exist")
-else:
-    list_of_players = get_player_info(A, B)
-    list_of_home_players = list_of_players[0]
-    list_of_away_players = list_of_players[1]
-    print("HOME: {}".format(A))
-    print("############STARTERS#############")
-    for home_player in list_of_home_players:
-        if home_player != 0:
-            print(home_player.__str__("stats"))
-        else:
-            print("****BENCHES****")
-    print('#################################')
+for match in NBA_Matches.items():
+    player_stats_in_match = get_player_stats(match[0], match[1])
+    list_of_player_stats_diction = convert_to_players_stats_dict(player_stats_in_match)
+    for player_diction in list_of_player_stats_diction:
+        player_diction["MATCH"] = "{}|{}".format(match[0], match[1])
+    sql = 'INSERT INTO "{}" VALUES (%(MATCH)s, %(Team)s, %(Name)s, %(MIN)s, %(PTS)s, %(REB)s, %(AST)s, %(STL)s, %(BLK)s) ON CONFLICT DO NOTHING'.format(table_name)
+    cur.executemany(sql, list_of_player_stats_diction)
+    conn.commit()
 
-    print("AWAY: {}".format(B))
-    print("############STARTERS#############")
-    for away_player in list_of_away_players:
-        if away_player != 0:
-            print(away_player.__str__("stats"))
-        else:
-            print("****BENCHES****")
 
-print(NBA_Matches)
+### AND DONE
+conn.close()
+
+# A = "MIL"
+# A = A.upper()
+# B = "GSW"
+# B = B.upper()
+#
+# input_match = (A, B)
+# ## First check if the match exist within this two days
+# if checked(input_match) == False:
+#     print("This match does not exist")
+# else:
+#     list_of_players = get_player_stats(A, B)
+#     list_of_home_players = list_of_players[0]
+#     list_of_away_players = list_of_players[1]
+#     print("HOME: {}".format(A))
+#     print("############STARTERS#############")
+#     for home_player in list_of_home_players:
+#         if home_player != 0:
+#             print(home_player.__str__("stats"))
+#         else:
+#             print("****BENCHES****")
+#     print('#################################')
+#
+#     print("AWAY: {}".format(B))
+#     print("############STARTERS#############")
+#     for away_player in list_of_away_players:
+#         if away_player != 0:
+#             print(away_player.__str__("stats"))
+#         else:
+#             print("****BENCHES****")
+
+# print(NBA_Matches)
+# print(NBA_Matches.items())
+# match_list = list(NBA_Matches.items())
+# for match in NBA_Matches.items():
+#     print(match[0])
+#     print(match[1])
