@@ -62,7 +62,10 @@ NBA_Teams["Toronto Raptors"] = "TOR"
 NBA_Teams["Utah Jazz"] = "UTA"
 NBA_Teams["Washington Wizards"] = "WAS"
 
+## Put match(home_team, away_team) in it
 NBA_Matches = []
+## Put box_score_url in it to check if there is duplicate
+Repeated = []
 
 '''
 https://paper.dropbox.com/doc/SI-508-Final-Project-Proposal--ASGPsji2Z6NUcZx0M3yV5sNxAg-cflJKwQwD6IWpMUmwhfqQ
@@ -160,6 +163,8 @@ def checked(game):
 def get_player_stats(home_team_abbr, away_team_abbr):
     # https://www.basketball-reference.com/boxscores/201812020LAL.html
     box_score_id = "{} vs {}".format(away_team_abbr, home_team_abbr)
+    # https://www.basketball-reference.com/boxscores/201812080CLE.html
+    # https://www.basketball-reference.com/boxscores/201812070CLE.html
 
     cache_file = "box_score_id.json"
     cache = Cache(cache_file)
@@ -167,44 +172,41 @@ def get_player_stats(home_team_abbr, away_team_abbr):
 
     if box_score_response_text == None:
         # response is a string
-        if home_team_abbr == "PHX":
+        if home_team_abbr == "PHX" or home_team_abbr == "BKN":
             for time_id in list_of_time_id:
                 time_id = time_id.replace('-', '')
-                box_score_url = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(time_id, "PHO")
+                if home_team_abbr == "PHX":
+                    box_score_url = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(time_id, "PHO")
+                else:
+                    box_score_url = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(time_id, "BRK")
                 box_score_response_status = requests.get(box_score_url).status_code
-                if box_score_response_status == 200:
-                    print("send resquest to {}".format(box_score_id))
+                if box_score_response_status == 200 and box_score_url not in Repeated:
+                    Repeated.append(box_score_url)
+                    print("send request to {}".format(box_score_id))
+                    print(box_score_url)
                     box_score_response_text = requests.get(box_score_url).text
+                    break
                 else:
                     pass
-        elif home_team_abbr == "BKN":
-            for time_id in list_of_time_id:
-                time_id = time_id.replace('-', '')
-                box_score_url = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(time_id, "BRK")
-                box_score_response_status = requests.get(box_score_url).status_code
-                if box_score_response_status == 200:
-                    print("send resquest to {}".format(box_score_id))
-                    box_score_response_text = requests.get(box_score_url).text
-                else:
-                    pass
+
         else:
             for time_id in list_of_time_id:
                 time_id = time_id.replace('-', '')
                 box_score_url = "https://www.basketball-reference.com/boxscores/{}0{}.html".format(time_id, home_team_abbr)
                 box_score_response_status = requests.get(box_score_url).status_code
-                if box_score_response_status == 200:
-                    print("send resquest to {}".format(box_score_id))
+                if box_score_response_status == 200 and box_score_url not in Repeated:
+                    Repeated.append(box_score_url)
+                    print("send request to {}".format(box_score_id))
+                    print(box_score_url)
                     box_score_response_text = requests.get(box_score_url).text
+                    break
                 else:
                     pass
 
-        print(box_score_url)
         cache.set(box_score_id, box_score_response_text, 1)
 
     else:
         print("{} is already in cache".format(box_score_id))
-
-    # print(box_score_url)
 
     box_score_soup = BeautifulSoup(box_score_response_text, 'html.parser')
     # print(box_score_soup.prettify())
@@ -431,20 +433,25 @@ if __name__ == "__main__":
     cur.execute(query_for_table)
 
     for match in NBA_Matches:
-        player_stats_in_match = get_player_stats(match[0], match[1])
-        list_of_player_stats_diction = convert_to_players_stats_dict(player_stats_in_match)
-        for player_diction in list_of_player_stats_diction:
-            player_diction["MATCH"] = "{}|{}".format(match[0], match[1])
-        sql = 'INSERT INTO "{}" VALUES (%(MATCH)s, %(Team)s, %(Name)s, %(MIN)s, %(PTS)s, %(REB)s, %(AST)s, %(STL)s, %(BLK)s) ON CONFLICT DO NOTHING'.format(table_name)
-        cur.executemany(sql, list_of_player_stats_diction)
-        conn.commit()
+        try:
+            player_stats_in_match = get_player_stats(match[0], match[1])
+            list_of_player_stats_diction = convert_to_players_stats_dict(player_stats_in_match)
+            for player_diction in list_of_player_stats_diction:
+                player_diction["MATCH"] = "{}|{}".format(match[0], match[1])
+            sql = 'INSERT INTO "{}" VALUES (%(MATCH)s, %(Team)s, %(Name)s, %(MIN)s, %(PTS)s, %(REB)s, %(AST)s, %(STL)s, %(BLK)s) ON CONFLICT DO NOTHING'.format(table_name)
+            cur.executemany(sql, list_of_player_stats_diction)
+            conn.commit()
+        except:
+            print("Cannot get info info from {} ".format(match))
+
 
 
     ### AND DONE
     conn.close()
 
 
-
+    # print(Repeated)
+    # print(NBA_Matches)
 # A = "MIL"
 # A = A.upper()
 # B = "GSW"
@@ -474,10 +481,3 @@ if __name__ == "__main__":
 #             print(away_player.__str__("stats"))
 #         else:
 #             print("****BENCHES****")
-
-# print(NBA_Matches)
-# print(NBA_Matches.items())
-# match_list = list(NBA_Matches.items())
-# for match in NBA_Matches.items():
-#     print(match[0])
-#     print(match[1])
