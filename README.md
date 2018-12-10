@@ -2,15 +2,19 @@
 YU-KAI CHOU  UMID 51054859
 
 # Project Objective
-I have been watching NBA for 7 years. I always check out the game result on a Taiwan NBA website instead of NBA.com at the end of every day and the way it performs those game is like
+I have been watching NBA for 7 years. I always check out the game result on a Taiwan website, called **PTT Bulletin Board System**, instead of NBA.com at the end of every day and the way it performs those game is like
 [12/9 2018 Jazz Spurs]https://www.ptt.cc/bbs/NBA/M.1544408033.A.95D.html
+
 [12/9 2018 Bucks Raptors]https://www.ptt.cc/bbs/NBA/M.1544405017.A.E79.html
-![EXAMPLE]()
+
+![EXAMPLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/NBA_HORNETS_SPURS_PTT.png)
 
 When I saw it for the first time, I thought the style was very cool. Hence, for my final project, I want to make a similar but simple one and display those results via terminal
 
 ![BOX SCORE TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png)
+
 ![PLAYER INFO TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO_TABLE.png)
+
 ![PLAYER STATS TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS_TABLE.png)
 
 
