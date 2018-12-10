@@ -21,11 +21,11 @@ class Test1_Setup(unittest.TestCase):
 
 class Test2_Game(unittest.TestCase):
     def test_game_type(self):
-        # list_of_games = get_games_info()
-        self.assertIsInstance(list_of_games[0], Game)
+        for game in list_of_games:
+            self.assertIsInstance(game, Game)
     def test_game_home_away_team(self):
-        # list_of_games = get_games_info()
-        self.assertFalse(list_of_games[0].home_team == list_of_games[0].away_team)
+        for game in list_of_games:
+            self.assertFalse(game.home_team == game.away_team)
     def test_num_of_NBA_games(self):
         self.assertEqual(len(list_of_games), len(NBA_Matches), "Testing the number of NBA_Matches within these two days")
 

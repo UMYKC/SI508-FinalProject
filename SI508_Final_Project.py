@@ -290,11 +290,11 @@ def get_players_for_the_team(team_name_abbre):
         # response is a string
         team_response_text = requests.get(team_url).text
         cache.set(team_id, team_response_text, 1)
-        # print("send resquest to {}".format(team_id))
+        print("send resquest to {}".format(team_id))
 
     else:
-        pass
-        # print("{} is already in cache".format(team_id))
+        # pass
+        print("{} is already in cache".format(team_id))
 
 
     team_roster_soup = BeautifulSoup(team_response_text, 'html.parser')
@@ -428,8 +428,8 @@ if __name__ == "__main__":
 
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     table_name = "PLAYER_STATS"
-    cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
-    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("MATCH" VARCHAR(500), "TEAM" VARCHAR(500), "PLAYER" VARCHAR(500) PRIMARY KEY, "MIN" VARCHAR(500), "PTS" INT, "REB" INT, "AST" INT, "STL" INT, "BLK" INT)'.format(table_name)
+    cur.execute("DROP TABLE IF EXISTS {}".format(table_name)) # REFERENCES {} , '''"PLAYER_INFO"("PLAYER")'''
+    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("MATCH" VARCHAR(500), "TEAM" VARCHAR(500), "PLAYER" VARCHAR(500), "MIN" VARCHAR(500), "PTS" INT, "REB" INT, "AST" INT, "STL" INT, "BLK" INT,  PRIMARY KEY("MATCH", "PLAYER"))'.format(table_name)
     cur.execute(query_for_table)
 
     for match in NBA_Matches:
@@ -441,8 +441,9 @@ if __name__ == "__main__":
             sql = 'INSERT INTO "{}" VALUES (%(MATCH)s, %(Team)s, %(Name)s, %(MIN)s, %(PTS)s, %(REB)s, %(AST)s, %(STL)s, %(BLK)s) ON CONFLICT DO NOTHING'.format(table_name)
             cur.executemany(sql, list_of_player_stats_diction)
             conn.commit()
-        except:
-            print("Cannot get info info from {} ".format(match))
+        except Exception as e:
+            print(e)
+            # print("Cannot get info from {} ".format(match))
 
 
 
