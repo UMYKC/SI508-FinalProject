@@ -13,8 +13,8 @@ To install all the libraries that are needed for this program, simply run these 
 
 | Library | Installation |
 | ---- | --- |
-| **BeautifulSoup** | ```bash pip install beautifulsoup4```|
-| **Requests** | ```bash pip install requests ```|
+| **BeautifulSoup** | ``` pip install beautifulsoup4```|
+| **Requests** | ``` pip install requests ```|
 | **Psycopg** | ``` pip install psycopg2 ```|
 
 
