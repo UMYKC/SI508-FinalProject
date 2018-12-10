@@ -8,15 +8,15 @@ I have been watching NBA for 7 years. I always check out the game result on a Ta
 
 [12/9/2018 Bucks vs Raptors]https://www.ptt.cc/bbs/NBA/M.1544405017.A.E79.html
 
-![EXAMPLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/NBA_HORNETS_SPURS_PTT.png =250x250)
+![EXAMPLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/NBA_HORNETS_SPURS_PTT.png)
 
 When I saw it for the first time, I thought the style was very cool. Hence, for my final project, I want to make a similar style but simplified ones and display those results via terminal like the following
 
-![BOX SCORE TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png =250x250)
+![BOX SCORE TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png)
 
-![PLAYER INFO TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO_TABLE.png =250x250)
+![PLAYER INFO TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO_TABLE.png)
 
-![PLAYER STATS TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS_TABLE.png =250x250)
+![PLAYER STATS TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS_TABLE.png)
 
 
 
