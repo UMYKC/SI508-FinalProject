@@ -33,18 +33,15 @@ query2 = '''
 select *
 from "BOX_SCORE"
 where "DATE" = '{}'
-and "Q1" >= 28
-and "Q2" >= 28
-and "Q3" >= 28
-and "Q4" >= 28
+and "FINAL" >= 100
 '''.format(time_today_id)
 
 query3 = '''
 select *
 from "PLAYER_STATS"
 where "PTS" >= 20
-and "AST" >= 5
 and "REB" >= 5
+and "AST" >= 5
 '''
 ## Triple Double means that a player get over 10 points, 10 assists, 10 rebounds
 
@@ -54,12 +51,8 @@ cur.execute(query2)
 res2 = cur.fetchall()
 cur.execute(query3)
 res3 = cur.fetchall()
-print('''select * from "PLAYER_INFO" where "TEAM" = 'LAL' ''')
-print(res1)
+print(res1) ## this should print out the Los Angles Lakers's players info
 print('''*****************************''')
-print(''' select * from "BOX_SCORE" where "DATE" = '{}' and "Q1" >= 28 and "Q2" >= 28 and "Q3" >= 28 and "Q4" >= 28 '''.format(time_today_id))
-print(res2)
+print(res2) ## this should print out the team which scored over 100 points
 print('''*****************************''')
-print('''Find the player who got Triple-Double''')
-print('''select * from "PLAYER_STATS" where "PTS" >= 10 and "AST" >= 10 and "REB" >= 10 ''')
-print(res3)
+print(res3) ## this should print out the player who scored over 20 points, had over 5 rebounds and 5 assists.
