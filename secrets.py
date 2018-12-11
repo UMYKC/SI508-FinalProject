@@ -1,4 +1,4 @@
-# Go to https://allsportsapi.com/ and apply for a new api key
+# Go to https://allsportsapi.com/ and apply for a new api key for basketball
 # One should receive the api key by email in a short time
 
 # put your all_sports_api api key here

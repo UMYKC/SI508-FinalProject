@@ -96,3 +96,34 @@ Excluding Image file, there are 8 files.
 | **alternate_advanced_caching.py** | Define a class called Cache. It will do caching but with expiry time|
 | **query_for_NBA_DB.py** | The example code of making queries depending upon what users might want to find out from the tables|
 | **secrets.py** | Where users should put their own API key, requested from All Sports API website|
+
+
+## Running Programs
+
+After the setup, one should clone the repo to your desired directory.
+Second, check out the secrets.py and apply for your own All Sports API key.
+Finally, as soon as receiving the API key and paste it to secrets.py, one can run the program in the terminal by the following steps.
+
+| Step | Command |
+| ---- | --- |
+| **1. Change directory to the SI508-FinalProject folder** | ``` cd SI508-FinalProject ```|
+| **2. Run SI508_Final_Project.py** | ``` python SI508_Final_Project.py ```|
+| **3. Go to PSQL** | ``` psql ```|
+| **4. Check databases** | ``` \l ```|
+| **5. Connect to NBA_DB** | ``` \c NBA_DB ```|
+| **6. Check tables** | ``` \dt ```|
+| **7. Get into Table "BOX_SCORE"** | ``` select * from "BOX_SCORE"; ```|
+| **8. Get into Table "PLAYER_INFO"** | ``` select * from "PLAYER_INFO"; ```|
+| **9. Get into Table "PLAYER_STATS"** | ``` select * from "PLAYER_STATS"; ```|
+
+| Useful commands in PSQL |
+| ---- | --- |
+| ```\?```| list all the commands |
+| ```\l```| list databases |
+| ```\c [DBNAME]```| connect to new database |
+| ```\dt```| list tables |
+| ```q```|  quit table |
+| ```\q```| quit psql |
+|**Note: a statement must be terminated with semicolon ;**|
+
+## Running Test Suites
