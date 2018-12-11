@@ -16,15 +16,10 @@ The reason that I want to do is that I have been watching NBA for 7 years. I alw
 
 ![EXAMPLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/NBA_HORNETS_SPURS_PTT.png)
 
-When I saw it for the first time, I thought the style was very cool. Hence, for my final project, I want to make a similar but simplified ones and display those results via terminal like the following
+When I saw it for the first time, I thought the style was very cool. Hence, for my final project, I want to use what I have learn in PostgreSQL and make a similar but simplified ones like the following
 
 
 ![BOX SCORE TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png)
-
-![PLAYER INFO TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO_TABLE.png)
-
-![PLAYER STATS TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS_TABLE.png)
-
 
 
 ## Libraries Need to Know
