@@ -13,13 +13,12 @@ The reason that I want to do is that I have been watching NBA for 7 years. I alw
 [12/9/2018 Jazz vs Spurs] https://www.ptt.cc/bbs/NBA/M.1544408033.A.95D.html
 
 
-![EXAMPLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/NBA_Bucks_Raptors_PTT.png)
+<img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/NBA_Bucks_Raptors_PTT.png" height="382" width="748">
 
 When I saw it for the first time, I thought the style was very cool. Hence, for my final project, I want to use what I have learn in PostgreSQL and make a similar but simplified ones like the following
 
 
-![BOX SCORE TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png)
-
+<img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png" height="116" width="538">
 
 ## Libraries Need to Know
 | Library | Description |
