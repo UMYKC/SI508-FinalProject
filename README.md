@@ -116,7 +116,7 @@ Finally, as soon as receiving the API key and paste it to secrets.py, one can ru
 | **8. Get into Table "PLAYER_INFO"** | ``` select * from "PLAYER_INFO"; ```|
 | **9. Get into Table "PLAYER_STATS"** | ``` select * from "PLAYER_STATS"; ```|
 
-| Useful commands in PSQL |
+| Useful commands in PSQL| Description |
 | ---- | --- |
 | ```\?```| list all the commands |
 | ```\l```| list databases |
