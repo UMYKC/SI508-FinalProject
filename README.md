@@ -142,3 +142,4 @@ Finally, as soon as receiving the API key and paste it to secrets.py, one can ru
 | ```\q```| quit psql |
 
 ## Running Test Suites
+Simply run python ```TESTS_SI508_Final_Project.py``` in terminal
