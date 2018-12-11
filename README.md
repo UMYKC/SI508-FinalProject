@@ -81,7 +81,7 @@ Excluding Image file, there are 8 files.
 
 | File Name | Description |
 | ---- | --- |
-| **DataBase_Archive** |A old version of NBA_DB that I archived. One can load this database, including three tables by entering             1. ```createdb old_nba_db``` 2. ```pg_restore -d old_nba_db DataBase_Archive ```                                                            in terminal|
+| **DataBase_Archive** |A old version of NBA_DB that I archived. One can load this database, including three tables by entering 1. ```createdb old_nba_db``` 2. ```pg_restore -d old_nba_db DataBase_Archive ``` in terminal|
 | **Class.py** | Define two classes, Game and Player|
 | **README.md** | Includes all the information one needs to know, setup, and run for this project|
 | **SI508_Final_Project.py** | The main file to run with python|
