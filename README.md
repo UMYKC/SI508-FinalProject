@@ -19,8 +19,9 @@ The reason that I want to do is that I have been watching NBA for 7 years. I alw
 
 When I saw it for the first time, I thought the style was very cool. Hence, for my final project, I want to use what I have learn in PostgreSQL and make a similar but simplified ones like the following
 
-
-<img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png" height="116" width="538">
+<p align="center">
+  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png" height="116" width="538">
+</p>
 
 ## Libraries Need to Know
 | Library | Description |
@@ -57,7 +58,9 @@ After starting the server, one can open a new Terminal window. But all is well! 
 
 Then one now should see a different prompt, something like this
 
-<img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PSQL.png" height="63" width="156">
+<p align="center">
+  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PSQL.png" height="63" width="156">
+</p>
 
 The name before =# will be your computer user name, which is the default
 
@@ -65,7 +68,9 @@ The name before =# will be your computer user name, which is the default
 
 This will create a database called NBA_DB in your PSQL. One can check it by typing ```\l``` and should see something like this in the prompt
 
-<img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/DB.png" height="100" width="440">
+<p align="center">
+  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/DB.png" height="100" width="440">
+</p>
 
 **2. Install all the libraries that are needed for this program, simply run these simple command in your terminal of choice:**
 
