@@ -31,6 +31,7 @@ When I saw it for the first time, I thought the style was very cool. Hence, for 
 
 ## Requirements to Run the Program
 1. Postgres Database setup
+
 **For mac only! (Postgres is not for mac only, but this setup is for mac only.)**
 
 | Step | Paste to Command Line |
@@ -61,6 +62,7 @@ Then one now should see a different prompt, something like this
 The name before =# will be your computer user name, which is the default
 
 **Finally, type ```CREATE DATABASE "NBA_DB";``` in the Terminal**
+
 This will create a database called NBA_DB in your PSQL. One can check it by typing ```\l``` and should see something like this in the prompt
 
 ![DB](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/DB.png)
