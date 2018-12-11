@@ -6,7 +6,7 @@ YU-KAI CHOU #51054859
 https://paper.dropbox.com/doc/SI-508-Final-Project-Proposal--ASGPsji2Z6NUcZx0M3yV5sNxAg-cflJKwQwD6IWpMUmwhfqQ
 
 # Project Objective
-This project will build three tables in NBA_DB via PostgreSQL. They are "BOX_SCORE", "PLAYER_INFO" and "PLAYER_STATS", which show users daily NBA game results, players' basic information and statistics in each team individually. In addition, by using SQL SELECT statements and WHERE clause, served as a filter, users can find some desired result between tables. 
+The output of this project is three tables in a relational database called NBA_DB. The tables are named "BOX_SCORE", "PLAYER_INFO" and "PLAYER_STATS" individually, which show users daily NBA game results, players' basic information and statistics in each team. In addition, by using SQL SELECT statements and WHERE clause, served as a filter, users can find some desired result between tables.
 
 The reason that I want to do is that I have been watching NBA for 7 years. I always check out the game results on a Taiwan website, called **PTT Bulletin Board System**, instead of NBA.com at the end of every day since the way it performs those games are like
 
@@ -26,7 +26,7 @@ When I saw it for the first time, I thought the style was very cool. Hence, for 
 | ---- | --- |
 | **BeautifulSoup** | Beautiful Soup is a library that makes it easy to scrape information from web pages. It sits atop an HTML or XML parser, providing Pythonic idioms for iterating, searching, and modifying the parse tree|
 | **Requests** | Requests is a library that enable program to connect to services that store data. Then the services will send back a repository, in which data stored in some structured way|
-| **Psycopg** | PostgreSQL is a relational database management systems (RDBMS). And, Psycopg is a PostgreSQL adapter that one can deal with data Pythonically via making queries to the database server|
+| **Psycopg** | PostgreSQL is a relational database management systems (RDBMS). By using it, users can build their own database and tables. And, Psycopg is a PostgreSQL adapter that one can deal with data Pythonically via making queries to the database server|
 
 ## Requirements to Run the Program
 1. Postgres Database setup
@@ -88,4 +88,4 @@ Excluding Image file, there are 8 files.
 | **TESTS_SI508_Final_Project.py** | The test suite file to see whether SI508_Final_Project.py passes 11 test methods|
 | **alternate_advanced_caching.py** | Define a class called Cache. It will do caching but with expiry time|
 | **query_for_NBA_DB.py** | The example code of making queries depending upon what users might want to find out from the tables|
-| **secrets.py** | Where one should put his/her own API key, requested from All Sports API website|
+| **secrets.py** | Where users should put their own API key, requested from All Sports API website|
