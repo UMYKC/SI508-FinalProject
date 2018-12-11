@@ -43,11 +43,13 @@ When I saw it for the first time, I thought the style was very cool. Hence, for 
 
 Other useful commands for starting/stopping psql db server (in general) — you may want to refer to these in future:
 
-|  |Enter in Command Line |
-| ---- | --- |
-| **Check Status** | ```pg_ctl -D /usr/local/var/postgres status```|
-| **Start the server** | ```pg_ctl -D /usr/local/var/postgres start```|
-| **Stop the server** | ```pg_ctl -D /usr/local/var/postgres stop```|
+<p align="center">
+  |  |Enter in Command Line |
+  | ---- | --- |
+  | **Check Status** | ```pg_ctl -D /usr/local/var/postgres status```|
+  | **Start the server** | ```pg_ctl -D /usr/local/var/postgres start```|
+  | **Stop the server** | ```pg_ctl -D /usr/local/var/postgres stop```|
+</p>
 
 If you restart your computer, for example, you’ll need to run that ^ start command to start up the DB server.
 
