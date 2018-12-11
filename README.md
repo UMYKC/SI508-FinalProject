@@ -11,12 +11,15 @@ I have been watching NBA for 7 years. I always check out the game results on a T
 ![EXAMPLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/NBA_HORNETS_SPURS_PTT.png)
 
 When I saw it for the first time, I thought the style was very cool. Hence, for my final project, I want to make a similar but simplified ones and display those results via terminal like the following
-|Box score within two days|
-|![BOX SCORE TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png)|
-|Players in each NBA team|
-|![PLAYER INFO TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO_TABLE.png)|
-|Players stats in games within two days|
-|![PLAYER STATS TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS_TABLE.png)|
+|1. Box score within two days|
+|2. Players in each NBA team|
+|3. Players stats in games within two days|
+
+![BOX SCORE TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png)
+
+![PLAYER INFO TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO_TABLE.png)
+
+![PLAYER STATS TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS_TABLE.png)
 
 
 
