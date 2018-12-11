@@ -2,7 +2,7 @@
 YU-KAI CHOU  UMID 51054859
 
 # Project Objective
-I have been watching NBA for 7 years. I always check out the game result on a Taiwan website, called **PTT Bulletin Board System**, instead of NBA.com at the end of every day and the way it performs those games are like
+I have been watching NBA for 7 years. I always check out the game results on a Taiwan website, called **PTT Bulletin Board System**, instead of NBA.com at the end of every day since the way it performs those games are like
 
 [12/9/2018 Jazz vs Spurs]https://www.ptt.cc/bbs/NBA/M.1544408033.A.95D.html
 
@@ -10,13 +10,13 @@ I have been watching NBA for 7 years. I always check out the game result on a Ta
 
 ![EXAMPLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/NBA_HORNETS_SPURS_PTT.png)
 
-When I saw it for the first time, I thought the style was very cool. Hence, for my final project, I want to make a similar style but simplified ones and display those results via terminal like the following
-
-![BOX SCORE TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png)
-
-![PLAYER INFO TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO_TABLE.png)
-
-![PLAYER STATS TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS_TABLE.png)
+When I saw it for the first time, I thought the style was very cool. Hence, for my final project, I want to make a similar but simplified ones and display those results via terminal like the following
+|Box score within two days|
+|![BOX SCORE TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png)|
+|Players in each NBA team|
+|![PLAYER INFO TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO_TABLE.png)|
+|Players stats in games within two days|
+|![PLAYER STATS TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS_TABLE.png)|
 
 
 
@@ -25,7 +25,7 @@ When I saw it for the first time, I thought the style was very cool. Hence, for 
 | ---- | --- |
 | **BeautifulSoup** | Beautiful Soup is a library that makes it easy to scrape information from web pages. It sits atop an HTML or XML parser, providing Pythonic idioms for iterating, searching, and modifying the parse tree|
 | **Requests** | Requests is a library that enable program to connect to services that store data. Then the services will send back a repository, in which data stored in some structured way|
-| **Psycopg** | Postgres is a relational database management systems (RDBMS). And, Psycopg is a PostgreSQL adapter that one can deal with data Pythonically via making queries to the database server|
+| **Psycopg** | PostgreSQL is a relational database management systems (RDBMS). And, Psycopg is a PostgreSQL adapter that one can deal with data Pythonically via making queries to the database server|
 
 ## Requirements to Run the Program
 To install all the libraries that are needed for this program, simply run these simple command in your terminal of choice:
