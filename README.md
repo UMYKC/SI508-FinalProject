@@ -31,6 +31,7 @@ When I saw it for the first time, I thought the style was very cool. Hence, for 
 
 ## Requirements to Run the Program
 1. Postgres Database setup
+**For mac only! (Postgres is not for mac only, but this setup is for mac only.)**
 
 | Step | Paste to Command Line |
 | ---- | --- |
