@@ -37,8 +37,6 @@ When I saw it for the first time, I thought the style was very cool. Hence, for 
 ## Requirements to Run the Program
 1. Postgres Database setup
 
-**a.**
-
 | Step | Paste to Command Line |
 | ---- | --- |
 | **Get homebrew** | ``` /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"```|
@@ -57,9 +55,11 @@ If you restart your computer, for example, you’ll need to run that ^ start com
 
 After starting the server, one can open a new Terminal window. But all is well! This server will run in the background.
 
-**b.**
-Type ```psql``` in the new Terminal
+
+**Type ```psql``` in the new Terminal**
+
 Then one now should see a different prompt, something like this
+
 ![PSQL](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PSQL.png)
 
 The name before =# will be your computer user name, which is the default
@@ -67,6 +67,7 @@ The name before =# will be your computer user name, which is the default
 **c.**
 Finally, type ```CREATE DATABASE "NBA_DB";``` in the Terminal.
 This will create a database called NBA_DB in your PSQL. One can check it by typing ```\l``` and should see something like this in the prompt
+
 ![DB](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/DB.png)
 
 
