@@ -29,7 +29,7 @@ When I saw it for the first time, I thought the style was very cool. Hence, for 
 | **Psycopg** | PostgreSQL is a relational database management systems (RDBMS). By using it, users can build their own database and tables. And, Psycopg is a PostgreSQL adapter that one can deal with data Pythonically via making queries to the database server|
 
 ## Requirements to Run the Program
-1. Postgres Database setup
+**1. Postgres database setup**
 
 **For mac only! (Postgres is not for mac only, but this setup is for mac only.)**
 
@@ -67,7 +67,7 @@ This will create a database called NBA_DB in your PSQL. One can check it by typi
 ![DB](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/DB.png)
 
 
-2. Install all the libraries that are needed for this program, simply run these simple command in your terminal of choice:
+**2. Install all the libraries that are needed for this program, simply run these simple command in your terminal of choice:**
 
 | Library | Installation |
 | ---- | --- |
@@ -81,7 +81,7 @@ Excluding Image file, there are 8 files.
 
 | File Name | Description |
 | ---- | --- |
-| **DataBase_Archive** |A old version of NBA_DB that I archived. One can load this database, including three tables by entering 1. ```createdb old_nba_db``` 2. ```pg_restore -d old_nba_db DataBase_Archive```  in terminal|
+| **DataBase_Archive** |A old version of NBA_DB that I archived. One can load this database, including three tables by entering 1. ```createdb old_nba_db``` 2. cd to SI508-FinalProject file and ```pg_restore -d old_nba_db DataBase_Archive```  in terminal|
 | **Class.py** | Define two classes, Game and Player|
 | **README.md** | Includes all the information one needs to know, setup, and run for this project|
 | **SI508_Final_Project.py** | The main file to run with python|

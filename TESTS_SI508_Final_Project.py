@@ -45,8 +45,7 @@ class Test3_Player(unittest.TestCase):
 
 class Test4_NBA_DB(unittest.TestCase):
     def test_player_existence(self):
-        for player_info in res2:
-            self.assertIn('LeBron James', player_info[2])
+        self.assertIn('LeBron James', res1[9][2])
 
 
 
