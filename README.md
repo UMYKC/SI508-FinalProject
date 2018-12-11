@@ -118,17 +118,9 @@ Finally, as soon as receiving the API key and paste it to secrets.py, one can ru
 
 <p align="center">
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE.png" height="100" width="362">
-</p>
-
-<p align="center">
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO.png" height="190" width="308">
-</p>
-
-<p align="center">
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS.png" height="245" width="324">
 </p>
-
-
 
 **Note: a statement must be terminated with semicolon ;**
 
