@@ -116,6 +116,8 @@ Finally, as soon as receiving the API key and paste it to secrets.py, one can ru
 | **8. Get into Table "PLAYER_INFO"** | ``` select * from "PLAYER_INFO"; ```|
 | **9. Get into Table "PLAYER_STATS"** | ``` select * from "PLAYER_STATS"; ```|
 
+**Note: a statement must be terminated with semicolon ;**
+
 | Useful commands in PSQL| Description |
 | ---- | --- |
 | ```\?```| list all the commands |
@@ -124,6 +126,5 @@ Finally, as soon as receiving the API key and paste it to secrets.py, one can ru
 | ```\dt```| list tables |
 | ```q```|  quit table |
 | ```\q```| quit psql |
-|**Note: a statement must be terminated with semicolon ;**|
 
 ## Running Test Suites
