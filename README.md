@@ -112,9 +112,23 @@ Finally, as soon as receiving the API key and paste it to secrets.py, one can ru
 | **4. Check databases** | ``` \l ```|
 | **5. Connect to NBA_DB** | ``` \c NBA_DB ```|
 | **6. Check tables** | ``` \dt ```|
-| **7. Get into Table "BOX_SCORE"** | ``` select * from "BOX_SCORE"; ```|
-| **8. Get into Table "PLAYER_INFO"** | ``` select * from "PLAYER_INFO"; ```|
-| **9. Get into Table "PLAYER_STATS"** | ``` select * from "PLAYER_STATS"; ```|
+| **7. Get into Table BOX_SCORE, like Fig. 1** | ``` select * from "BOX_SCORE"; ```|
+| **8. Get into Table PLAYER_INFO, like Fig. 2** | ``` select * from "PLAYER_INFO"; ```|
+| **9. Get into Table PLAYER_STATS, like Fig. 3** | ``` select * from "PLAYER_STATS"; ```|
+
+<p align="center">
+  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE.png" height="199" width="724">
+</p>
+
+<p align="center">
+  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO.png" height="380" width="616">
+</p>
+
+<p align="center">
+  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS.png" height="489" width="647">
+</p>
+
+
 
 **Note: a statement must be terminated with semicolon ;**
 
