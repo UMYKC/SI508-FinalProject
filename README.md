@@ -117,7 +117,10 @@ Finally, as soon as receiving the API key and paste it to secrets.py, one can ru
 | **9. Get into Table PLAYER_STATS, like Fig. 3** | ``` select * from "PLAYER_STATS"; ```|
 
 <p align="center">
-  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE.png" height="100" width="362">
+  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE.png" height="150" width="543">
+</p>
+
+<p align="center">
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO.png" height="190" width="308">
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS.png" height="245" width="324">
 </p>
