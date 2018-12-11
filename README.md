@@ -6,7 +6,7 @@ YU-KAI CHOU #51054859
 https://paper.dropbox.com/doc/SI-508-Final-Project-Proposal--ASGPsji2Z6NUcZx0M3yV5sNxAg-cflJKwQwD6IWpMUmwhfqQ
 
 # Project Objective
-This project will build three tables in NBA_DB via PostgreSQL. Then each tables shows users the daily NBA games, players in each team basic information and statistics with SQL select statements.
+This project will build three tables in NBA_DB via PostgreSQL. Each tables shows users daily NBA games, players' basic information and statistics in each team with SQL select statements.
 
 The reason that I want to do is that I have been watching NBA for 7 years. I always check out the game results on a Taiwan website, called **PTT Bulletin Board System**, instead of NBA.com at the end of every day since the way it performs those games are like
 
@@ -37,7 +37,8 @@ When I saw it for the first time, I thought the style was very cool. Hence, for 
 ## Requirements to Run the Program
 1. Postgres Database setup
 
-**a**
+**a.**
+
 | Step | Paste to Command Line |
 | ---- | --- |
 | **Get homebrew** | ``` /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"```|
@@ -45,6 +46,7 @@ When I saw it for the first time, I thought the style was very cool. Hence, for 
 | **Start the database server** | ``` pg_ctl -D /usr/local/var/postgres start ```|
 
 Other useful commands for starting/stopping psql db server (in general) — you may want to refer to these in future:
+
 |  |Enter in Command Line |
 | ---- | --- |
 | **Check Status** | ```pg_ctl -D /usr/local/var/postgres status```|
@@ -55,14 +57,14 @@ If you restart your computer, for example, you’ll need to run that ^ start com
 
 After starting the server, one can open a new Terminal window. But all is well! This server will run in the background.
 
-**b**
+**b.**
 Type ```psql``` in the new Terminal
 Then one now should see a different prompt, something like this
 ![PSQL](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PSQL.png)
 
 The name before =# will be your computer user name, which is the default
 
-**c**
+**c.**
 Finally, type ```CREATE DATABASE "NBA_DB";``` in the Terminal.
 This will create a database called NBA_DB in your PSQL. One can check it by typing ```\l``` and should see something like this in the prompt
 ![DB](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/DB.png)
