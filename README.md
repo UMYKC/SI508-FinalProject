@@ -77,5 +77,15 @@ This will create a database called NBA_DB in your PSQL. One can check it by typi
 
 
 ## Files in this Repo
-Excluding Image file, there are 8 files. They are
-1.
+Excluding Image file, there are 8 files.
+
+| File Name | Description |
+| ---- | --- |
+| **DataBase_Archive** |A old version of NBA_DB that I archived. One can load this database, including three tables by 1. ```createdb old_nba_db``` 2. ```pg_restore -d old_nba_db DataBase_Archive ``` in terminal|
+| **Class.py** | Define two classes, Game and Player|
+| **README.md** | Includes all the information one needs to know, setup, and run for this project|
+| **SI508_Final_Project.py** | The main file to run with python|
+| **TESTS_SI508_Final_Project.py** | The test suite file to see whether SI508_Final_Project.py passes 11 test methods|
+| **alternate_advanced_caching.py** | Define a class called Cache. It will do caching but with expiry time|
+| **query_for_NBA_DB.py** | The example code of making queries depending upon what users might want to find out from the tables|
+| **secrets.py** | Where one should put his/her own API key, requested from All Sports API website|
