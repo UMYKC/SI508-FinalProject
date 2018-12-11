@@ -56,8 +56,6 @@ After starting the server, one can open a new Terminal window. But all is well! 
 
 Then one now should see a different prompt, something like this
 
-![PSQL](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PSQL.png)
-
 <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PSQL.png" height="63" width="156">
 
 The name before =# will be your computer user name, which is the default
@@ -66,9 +64,7 @@ The name before =# will be your computer user name, which is the default
 
 This will create a database called NBA_DB in your PSQL. One can check it by typing ```\l``` and should see something like this in the prompt
 
-![DB](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/DB.png)
 <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/DB.png" height="100" width="440">
-
 
 **2. Install all the libraries that are needed for this program, simply run these simple command in your terminal of choice:**
 
