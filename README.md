@@ -64,8 +64,7 @@ Then one now should see a different prompt, something like this
 
 The name before =# will be your computer user name, which is the default
 
-**c.**
-Finally, type ```CREATE DATABASE "NBA_DB";``` in the Terminal.
+**Finally, type ```CREATE DATABASE "NBA_DB";``` in the Terminal**
 This will create a database called NBA_DB in your PSQL. One can check it by typing ```\l``` and should see something like this in the prompt
 
 ![DB](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/DB.png)
