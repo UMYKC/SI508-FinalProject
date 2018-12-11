@@ -12,9 +12,8 @@ The reason that I want to do is that I have been watching NBA for 7 years. I alw
 
 [12/9/2018 Jazz vs Spurs] https://www.ptt.cc/bbs/NBA/M.1544408033.A.95D.html
 
-[12/9/2018 Bucks vs Raptors] https://www.ptt.cc/bbs/NBA/M.1544405017.A.E79.html
 
-![EXAMPLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/NBA_HORNETS_SPURS_PTT.png)
+![EXAMPLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/NBA_Bucks_Raptors_PTT.png)
 
 When I saw it for the first time, I thought the style was very cool. Hence, for my final project, I want to use what I have learn in PostgreSQL and make a similar but simplified ones like the following
 
