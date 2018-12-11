@@ -51,8 +51,10 @@ cur.execute(query2)
 res2 = cur.fetchall()
 cur.execute(query3)
 res3 = cur.fetchall()
-print(res1) ## this should print out the Los Angles Lakers's players info
-print('''*****************************''')
-print(res2) ## this should print out the team which scored over 100 points
-print('''*****************************''')
-print(res3) ## this should print out the player who scored over 20 points, had over 5 rebounds and 5 assists.
+
+if __name__ == "__main__":
+    print(res1) ## this should print out the Los Angles Lakers's players info
+    print('''*****************************''')
+    print(res2) ## this should print out the team which scored over 100 points
+    print('''*****************************''')
+    print(res3) ## this should print out the player who scored over 20 points, had over 5 rebounds and 5 assists.

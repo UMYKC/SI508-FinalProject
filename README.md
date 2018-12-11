@@ -6,7 +6,7 @@ YU-KAI CHOU #51054859
 https://paper.dropbox.com/doc/SI-508-Final-Project-Proposal--ASGPsji2Z6NUcZx0M3yV5sNxAg-cflJKwQwD6IWpMUmwhfqQ
 
 # Project Objective
-This project will build three tables in NBA_DB via PostgreSQL. They are "BOX_SCORE", "PLAYER_INFO" and "PLAYER_STATS" individually. Each tables shows users daily NBA games, players' basic information and statistics in each team with SQL select statements.
+This project will build three tables in NBA_DB via PostgreSQL. They are "BOX_SCORE", "PLAYER_INFO" and "PLAYER_STATS", which show users daily NBA game results, players' basic information and statistics in each team individually. In addition, by using SQL SELECT statements and WHERE clause, served as a filter, users can find some desired result between tables. 
 
 The reason that I want to do is that I have been watching NBA for 7 years. I always check out the game results on a Taiwan website, called **PTT Bulletin Board System**, instead of NBA.com at the end of every day since the way it performs those games are like
 

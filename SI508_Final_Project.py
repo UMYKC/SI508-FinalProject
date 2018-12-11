@@ -368,9 +368,13 @@ if __name__ == "__main__":
 
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     table_name = "BOX_SCORE"
-    cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
+    drop_query = '''DROP TABLE IF EXISTS "{}"'''.format(table_name)
+    cur.execute(drop_query)
+    conn.commit()
     query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("DATE" VARCHAR(500), "MATCH" VARCHAR(500) PRIMARY KEY, "TEAM" VARCHAR(500), "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "FINAL" INT)'.format(table_name)
     cur.execute(query_for_table)
+    conn.commit()
+
     list_of_games = get_games_info()
     for game in list_of_games:
         team_box_score_diction = game.table_rep()
@@ -387,7 +391,7 @@ if __name__ == "__main__":
     conn.close()
 
 
-    ## Set up database
+    # Set up database
     try:
         conn = psycopg2.connect("dbname='NBA_DB' user='kerrychou'")
         print("Success connecting to database")
@@ -397,10 +401,13 @@ if __name__ == "__main__":
 
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     table_name = "PLAYER_INFO"
-    cur.execute("DROP TABLE IF EXISTS {}".format(table_name))
+    drop_query = '''DROP TABLE IF EXISTS "{}"'''.format(table_name)
+    cur.execute(drop_query)
+    conn.commit()
+
     query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("TEAM" VARCHAR(500), "NO" INT, "PLAYER" VARCHAR(500) PRIMARY KEY, "POSITION" VARCHAR(500), "HEIGHT" VARCHAR(500), "WEIGHT" INT)'.format(table_name)
     cur.execute(query_for_table)
-
+    conn.commit()
     ### get team roster
     for team_name in NBA_Teams.values():
         try:
@@ -428,9 +435,13 @@ if __name__ == "__main__":
 
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     table_name = "PLAYER_STATS"
-    cur.execute("DROP TABLE IF EXISTS {}".format(table_name)) # REFERENCES {} , '''"PLAYER_INFO"("PLAYER")'''
+    drop_query = '''DROP TABLE IF EXISTS "{}"'''.format(table_name)
+    cur.execute(drop_query)
+    conn.commit()  # REFERENCES {} , '''"PLAYER_INFO"("PLAYER")'''
+
     query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("MATCH" VARCHAR(500), "TEAM" VARCHAR(500), "PLAYER" VARCHAR(500), "MIN" VARCHAR(500), "PTS" INT, "REB" INT, "AST" INT, "STL" INT, "BLK" INT,  PRIMARY KEY("MATCH", "PLAYER"))'.format(table_name)
     cur.execute(query_for_table)
+    conn.commit()
 
     for match in NBA_Matches:
         try:

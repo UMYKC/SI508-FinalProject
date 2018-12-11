@@ -1,6 +1,7 @@
 import unittest
 import sys
 from SI508_Final_Project import *
+from query_for_NBA_DB import *
 
 list_of_games = get_games_info()
 
@@ -42,7 +43,10 @@ class Test3_Player(unittest.TestCase):
         player = Player("DAL", "Luka Doncic")
         self.assertEqual(len(player.table_rep().keys()), 6)
 
-
+class Test4_NBA_DB(unittest.TestCase):
+    def test_player_existence(self):
+        for player_info in res2:
+            self.assertIn('LeBron James', player_info[2])
 
 
 
