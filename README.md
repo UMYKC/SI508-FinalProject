@@ -20,8 +20,6 @@ When I saw it for the first time, I thought the style was very cool. Hence, for 
 
 ![BOX SCORE TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png)
 
-<img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png" height="100" width="500">
-
 
 ## Libraries Need to Know
 | Library | Description |
@@ -59,6 +57,8 @@ After starting the server, one can open a new Terminal window. But all is well! 
 Then one now should see a different prompt, something like this
 
 ![PSQL](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PSQL.png)
+
+<img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PSQL.png" height="126" width="312">
 
 The name before =# will be your computer user name, which is the default
 
