@@ -20,6 +20,8 @@ When I saw it for the first time, I thought the style was very cool. Hence, for 
 
 ![BOX SCORE TABLE](https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png)
 
+<img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png" height="24" width="48">
+
 
 ## Libraries Need to Know
 | Library | Description |
