@@ -121,7 +121,7 @@ Finally, as soon as receiving the API key and paste it to secrets.py, one can ru
 </p>
 
 <p align="center">
-  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO.png" height="190" width="308">
+  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO.png" height="285" width="462">
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS.png" height="245" width="324">
 </p>
 
