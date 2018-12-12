@@ -17,7 +17,7 @@ The reason that I want to do is that I have been watching NBA for 7 years. I alw
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/NBA_Bucks_Raptors_PTT.png" height="382" width="748">
 </p>
 
-When I saw it for the first time, I thought the style was very cool. Hence, for my final project, I want to use what I have learn in PostgreSQL and make a similar but simplified ones like the following
+When I saw it for the first time, I thought the style was very cool. Hence, for my final project, I want to use what I have learn in SI508 and make a similar but simplified ones like the following
 
 <p align="center">
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png" height="116" width="538">
