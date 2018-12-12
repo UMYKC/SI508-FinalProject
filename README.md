@@ -5,8 +5,8 @@ YU-KAI CHOU #51054859
 
 https://paper.dropbox.com/doc/SI-508-Final-Project-Proposal--ASGPsji2Z6NUcZx0M3yV5sNxAg-cflJKwQwD6IWpMUmwhfqQ
 
-# Project Objective and No
-The output of this project is three tables in a relational database called NBA_DB. The tables are named "BOX_SCORE", "PLAYER_INFO" and "PLAYER_STATS" individually, which show users daily NBA game results, players' basic information and statistics in each team. In addition, by using SQL SELECT statements and WHERE clause, served as a filter, users can find some desired result between tables.
+# Project Objective
+This project is mainly done by using RESTful API, scraping skills to acquire NBA stats and demonstrate the relation between data via tables in database. As a result, the output is three tables in a relational database called NBA_DB. The tables are named "BOX_SCORE", "PLAYER_INFO" and "PLAYER_STATS" individually, users can use which to see NBA game results, players' basic information and statistics in each team within two days. In addition, by using SQL SELECT statements and WHERE clause, served as a filter, users can find some desired result between tables.
 
 The reason that I want to do is that I have been watching NBA for 7 years. I always check out the game results on a Taiwan website, called **PTT Bulletin Board System**, instead of NBA.com at the end of every day since the way it performs those games are like
 
@@ -23,6 +23,9 @@ When I saw it for the first time, I thought the style was very cool. Hence, for 
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE_TABLE.png" height="116" width="538">
 </p>
 
+# Notice
+The date is one of the most important parameter for my project, so as time. The best time to run my program is in daytime, roughly from 7 am to 4 pm, due to the time zone issue of the API I used and the website I scraping for data not updating the game stats instantaneously.
+
 ## Libraries Need to Know
 | Library | Description |
 | ---- | --- |
@@ -33,7 +36,7 @@ When I saw it for the first time, I thought the style was very cool. Hence, for 
 ## Requirements to Run the Program
 **1. Postgres database setup**
 
-<font color="red">For mac only! (Postgres is not for mac only, but this setup is for mac only.)!</font>
+For mac only! (Postgres is not for mac only, but this setup is for mac only.)
 
 | Step | Paste to Command Line |
 | ---- | --- |
@@ -134,7 +137,7 @@ After successfully running SI508_Final_Project.py, one can check the output in P
 
 In addition, there is a file called query_for_NBA_DB.py. One can try to run it by ```python query_for_NBA_DB.py```. On the other hand, user can check out the example queries in this file and try make your own queries in PSQL.
 
-<p align="center"><strong><font color="red">Reminder: a statement must be terminated with semicolon ;</font></strong></p>
+<p align="center"><strong>Reminder: a statement must be terminated with semicolon(;)</strong></p>
 
 | Useful commands in PSQL| Description |
 | ---- | --- |
