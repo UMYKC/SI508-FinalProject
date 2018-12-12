@@ -108,6 +108,11 @@ Finally, as soon as receiving the API key and paste it to secrets.py, one can ru
 | ---- | --- |
 | **1. Change directory to the SI508-FinalProject folder** | ``` cd SI508-FinalProject ```|
 | **2. Run SI508_Final_Project.py** | ``` python SI508_Final_Project.py ```|
+
+After successfully running SI508_Final_Project.py, one can check the output in PostgreSQL by the entering commands below in terminal
+
+| Step | Command |
+| ---- | --- |
 | **3. Go to PSQL** | ``` psql ```|
 | **4. Check databases** | ``` \l ```|
 | **5. Connect to NBA_DB** | ``` \c NBA_DB ```|
@@ -115,6 +120,7 @@ Finally, as soon as receiving the API key and paste it to secrets.py, one can ru
 | **7. Get into Table BOX_SCORE, like Fig. 1** | ``` select * from "BOX_SCORE"; ```|
 | **8. Get into Table PLAYER_INFO, like Fig. 2** | ``` select * from "PLAYER_INFO"; ```|
 | **9. Get into Table PLAYER_STATS, like Fig. 3** | ``` select * from "PLAYER_STATS"; ```|
+
 
 <p align="center">
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE.png" height="150" width="543">
@@ -125,7 +131,9 @@ Finally, as soon as receiving the API key and paste it to secrets.py, one can ru
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS.png" height="294" width="389">
 </p>
 
-**Note: a statement must be terminated with semicolon ;**
+In addition, there is a file called query_for_NBA_DB.py. One can try to run it by ```python query_for_NBA_DB.py```. On the other hand, user can check out the example queries in this file and try make your own queries in PSQL.
+
+<p align="center">**Reminder: a statement must be terminated with semicolon ;**</p>
 
 | Useful commands in PSQL| Description |
 | ---- | --- |
@@ -137,4 +145,4 @@ Finally, as soon as receiving the API key and paste it to secrets.py, one can ru
 | ```\q```| quit psql |
 
 ## Running Test Suites
-Simply run python ```TESTS_SI508_Final_Project.py``` in terminal
+Simply run ```python TESTS_SI508_Final_Project.py``` in terminal, which has 12 test methods.
