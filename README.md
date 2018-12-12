@@ -95,7 +95,7 @@ Excluding Image file, there are 8 files.
 | **Class.py** | Define two classes, Game and Player|
 | **README.md** | Includes all the information one needs to know, setup, and run for this project|
 | **SI508_Final_Project.py** | The main file to run with python|
-| **TESTS_SI508_Final_Project.py** | The test suite file to see whether SI508_Final_Project.py passes 11 test methods|
+| **TESTS_SI508_Final_Project.py** | The test suite file to see whether SI508_Final_Project.py passes 12 test methods|
 | **alternate_advanced_caching.py** | Define a class called Cache. It will do caching but with expiry time|
 | **query_for_NBA_DB.py** | The example code of making queries depending upon what users might want to find out from the tables|
 | **secrets.py** | Where users should put their own API key, requested from All Sports API website|
