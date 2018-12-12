@@ -24,7 +24,7 @@ When I saw it for the first time, I thought the style was very cool. Hence, for 
 </p>
 
 # Notice
-The date is one of the most important parameter for my project, so as time. The best time to run my program is in daytime, roughly from 7 am to 4 pm, due to the time zone issue of the API I used and the website I scraping for data not updating the game stats instantaneously.
+The date is one of the most important parameter for my project, so as time. The best time to run my program is in daytime, **roughly from 7 am to 4 pm**, due to the time zone issue of the API I used and the website I scraping for data not updating the game stats instantaneously.
 
 ## Libraries Need to Know
 | Library | Description |
