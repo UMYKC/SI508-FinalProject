@@ -6,7 +6,7 @@ YU-KAI CHOU #51054859
 https://paper.dropbox.com/doc/SI-508-Final-Project-Proposal--ASGPsji2Z6NUcZx0M3yV5sNxAg-cflJKwQwD6IWpMUmwhfqQ
 
 # Project Objective
-This project is mainly done by using RESTful API, scraping skills to acquire NBA stats and demonstrate the relation between data via tables in database. As a result, the output is three tables in a relational database called NBA_DB. The tables are named "BOX_SCORE", "PLAYER_INFO" and "PLAYER_STATS" individually, users can use which to see NBA game results, players' basic information and statistics in each team within two days. In addition, by using SQL SELECT statements and WHERE clause, served as a filter, users can find some desired result between tables.
+This project is mainly done by using RESTful API, scraping skills to acquire NBA stats and demonstrate the relation between matches, teams and players via tables in database. As a result, the output is three tables in a relational database called NBA_DB. The tables are named "BOX_SCORE", "PLAYER_INFO" and "PLAYER_STATS" individually, users can use which to see NBA game results, players' basic information, such as their number, weight and height, and statistics, such as points, assists, rebounds, field goals they got within two days. In addition, by using SQL SELECT statements and WHERE clause, served as a filter, users can find some desired result between tables.
 
 The reason that I want to do is that I have been watching NBA for 7 years. I always check out the game results on a Taiwan website, called **PTT Bulletin Board System**, instead of NBA.com at the end of every day since the way it performs those games are like
 

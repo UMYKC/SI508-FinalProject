@@ -73,10 +73,13 @@ Player
 '''
 
 class Player():
-    def __init__(self, team, name, min = 0, point = 0, rebound = 0, assist = 0, steal = 0, block = 0, no = -1, position = "PG", height = "7-0", weight = 230):
+    def __init__(self, team, name, min = 0, fg = 0, fga = 0, fg_percent = 0, rebound = 0, assist = 0, steal = 0, block = 0, point = 0, no = -1, position = "PG", height = "7-0", weight = 230):
         self.team = team
         self.name = name
         self.min = min
+        self.fg = fg
+        self.fga = fga
+        self.fg_percent = fg_percent
         self.pts = point
         self.reb = rebound
         self.ast = assist
@@ -108,6 +111,9 @@ class Player():
             player_diction["Weight"] = self.weight
         else:
             player_diction["MIN"] = self.min
+            player_diction["FG"] = self.fg
+            player_diction["FGA"] = self.fga
+            player_diction["PERCENT"] = self.fg_percent
             player_diction["PTS"] = self.pts
             player_diction["REB"] = self.reb
             player_diction["AST"] = self.ast
