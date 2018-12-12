@@ -60,8 +60,8 @@ After starting the server, one can open a new Terminal window. But all is well! 
 
 
 **2. Open Postgres database**
-Just type ```psql``` in the new terminal
 
+Just type ```psql``` in the new terminal
 Then one now should see a different prompt, something like this
 
 <p align="center">
@@ -70,15 +70,14 @@ Then one now should see a different prompt, something like this
 
 The name before =# will be your computer user name, which is the default
 
-**Finally, type ```CREATE DATABASE "NBA_DB";``` in the Terminal**
-
-This will create a database called NBA_DB in your PSQL. One can check it by typing ```\l``` and should see something like this in the prompt
+Finally, type ```CREATE DATABASE "NBA_DB";``` in the terminal, which will create a database called NBA_DB in your PSQL.
+One can check it by typing ```\l``` and should see something like this in the prompt
 
 <p align="center">
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/DB.png" height="100" width="440">
 </p>
 
-**3. Install all the libraries that are needed for this program, simply run these simple command in your terminal of choice:**
+**3. Install all the libraries that are needed for this program, simply run these commands in your terminal of choice:**
 
 | Library | Installation |
 | ---- | --- |
