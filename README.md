@@ -112,7 +112,7 @@ Finally, as soon as receiving the API key and paste it to secrets.py, one can ru
 | **1. Change directory to the SI508-FinalProject folder** | ``` cd SI508-FinalProject ```|
 | **2. Run SI508_Final_Project.py** | ``` python SI508_Final_Project.py ```|
 
-After successfully running SI508_Final_Project.py, one can check the output in PostgreSQL by the entering commands below in terminal
+After successfully running SI508_Final_Project.py, one can check the output in PostgreSQL by entering commands below in terminal
 
 | Step | Command |
 | ---- | --- |
