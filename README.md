@@ -127,12 +127,12 @@ After successfully running SI508_Final_Project.py, one can check the output in P
 
 
 <p align="center">
-  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE.png" height="150" width="543">
+  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE.png" height="344" width="606">
 </p>
 
 <p align="center">
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO.png" height="285" width="462">
-  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS.png" height="294" width="389">
+  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS.png" height="413" width="714">
 </p>
 
 In addition, there is a file called query_for_NBA_DB.py. One can try to run it by ```python query_for_NBA_DB.py```. On the other hand, user can check out the example queries in this file and try make your own queries in PSQL.
