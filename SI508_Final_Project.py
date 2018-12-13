@@ -144,6 +144,7 @@ def get_player_stats(home_team_abbr, away_team_abbr):
 
     if box_score_response_text == None:
         # response is a string
+        # handling the corner case for Brooklyn Nets and Phoenix Suns
         if home_team_abbr == "PHX" or home_team_abbr == "BKN":
             for time_id in list_of_time_id:
                 time_id = time_id.replace('-', '')
