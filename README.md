@@ -160,7 +160,7 @@ Each of them has explanation written in comment format.
 ## Project requirements I have chosen to fulfill
 
 | Requirement | Description|
-| :---: | :---: |
+| --- | --- |
 | **Basic requirements** ||
 | 2 data sources| All Sports API, Scraping data from Basketball-Reference.com|
 | Caching must be implemented| Implementing by ```alternate_advanced_caching.py```|
