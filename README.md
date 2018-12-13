@@ -94,6 +94,7 @@ Excluding Image file, there are 8 files.
 | **DataBase_Archive** |A old version of NBA_DB that I archived. One can load this database, including three tables by entering 1. ```createdb old_nba_db``` 2. cd to SI508-FinalProject file and ```pg_restore -d old_nba_db DataBase_Archive```  in terminal|
 | **Class.py** | Define two classes, Game and Player|
 | **README.md** | Includes all the information one needs to know, setup, and run for this project|
+| **NBA_Team_Abbrev_Dict.py** | All the NBA teams' name and their corresponding abbreviation. The abbreviation is used for building tables since it is related to setting the primary key of tables|
 | **SI508_Final_Project.py** | The main file to run with python|
 | **TESTS_SI508_Final_Project.py** | The test suite file to see whether SI508_Final_Project.py passes 13 test methods|
 | **alternate_advanced_caching.py** | Define a class called Cache. It will do caching but with expiry time|
