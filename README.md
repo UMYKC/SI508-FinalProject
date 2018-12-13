@@ -116,13 +116,13 @@ After successfully running SI508_Final_Project.py, one can check the output in P
 
 | Step | Command |
 | ---- | --- |
-| **3. Go to PSQL** | ``` psql ```|
-| **4. Check databases** | ``` \l ```|
-| **5. Connect to NBA_DB** | ``` \c NBA_DB ```|
-| **6. Check tables** | ``` \dt ```|
-| **7. Get into Table BOX_SCORE, like Fig. 1** | ``` select * from "BOX_SCORE"; ```|
-| **8. Get into Table PLAYER_INFO, like Fig. 2** | ``` select * from "PLAYER_INFO"; ```|
-| **9. Get into Table PLAYER_STATS, like Fig. 3** | ``` select * from "PLAYER_STATS"; ```|
+| **1. Go to PSQL** | ``` psql ```|
+| **2. Check databases** | ``` \l ```|
+| **3. Connect to NBA_DB** | ``` \c NBA_DB ```|
+| **4. Check tables** | ``` \dt ```|
+| **5. Get into Table BOX_SCORE, like Fig. 1** | ``` select * from "BOX_SCORE"; ```|
+| **6. Get into Table PLAYER_INFO, like Fig. 2** | ``` select * from "PLAYER_INFO"; ```|
+| **7. Get into Table PLAYER_STATS, like Fig. 3** | ``` select * from "PLAYER_STATS"; ```|
 
 
 <p align="center">
@@ -161,17 +161,17 @@ Each of them has explanation written in comment format.
 
 | Requirement | Description|
 | ---- | --- |
-| Basic requirements||
+| **Basic requirements** ||
 | 2 data sources| All Sports API, Scraping data from Basketball-Reference.com|
 | Caching must be implemented| Implementing by ```alternate_advanced_caching.py```|
 | Process data from each source| Yes, I processed the data from API and webpages and used them to create classes|
 | Import and use other Python module| BeautifulSoup, psycopg2|
 | At least 2 unittest.TestSuite subclasses and at least 10 test methods| There are 4 subclasses and 14 test methods in my test file|
-|Product produced by the project | 3 tables in NBA_DB in PostgreSQL|
+| Product produced by the project | 3 tables in NBA_DB in PostgreSQL|
 | Define at least 2 classes | Game and Player|
 | Examples of your output | Fig. 1 - Fig. 3|
-| Second level requirements |  |
+| **Second level requirements** |  |
 | Scraping data that comes in HTML or XML form using BeautifulSoup | YES|
 | Accessing a REST API or a new endpoint of a REST API | All Sports API|
-| Third level requirements|  |
+| **Third level requirements** |  |
 | A (relational) PostgreSQL database that includes at least two tables which have at least one relationship, from which useful queries can be made| 3 tables, BOX_SCORE, PLAYER_INFO, PLAYER_STATS. And PLAYER_STATS have a foreign key, (MATCH and TEAM), reference to BOX_SCORE's primary key, (MATCH and TEAM) |
