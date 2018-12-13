@@ -169,8 +169,8 @@ Each of them has explanation written in comment format.
 | Product produced by the project | 3 tables in NBA_DB in PostgreSQL|
 | Define at least 2 classes | Game and Player|
 | Examples of your output | Fig. 1 - Fig. 3|
-| **Second level requirements** | at least two |
+| **Second level requirements** | **>= 2** |
 | Scraping data that comes in HTML or XML form using BeautifulSoup | YES|
 | Accessing a REST API or a new endpoint of a REST API | All Sports API|
-| **Third level requirements** | at least one |
+| **Third level requirements** | **>= 1** |
 | A (relational) PostgreSQL database that includes at least two tables which have at least one relationship, from which useful queries can be made| 3 tables, BOX_SCORE, PLAYER_INFO, PLAYER_STATS. And PLAYER_STATS have a foreign key, (MATCH and TEAM), reference to BOX_SCORE's primary key, (MATCH and TEAM) |
