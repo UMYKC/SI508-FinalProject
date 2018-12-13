@@ -127,11 +127,12 @@ After successfully running SI508_Final_Project.py, one can check the output in P
 
 
 <p align="center">
-  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE.png" height="344" width="606">
+  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO.png" height="314" width="508">
 </p>
 
 <p align="center">
-  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO.png" height="285" width="462">
+  <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE.png" height="344" width="606">
+  
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS.png" height="331" width="571.2">
 </p>
 
