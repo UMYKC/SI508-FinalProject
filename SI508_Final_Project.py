@@ -225,21 +225,27 @@ def get_player_stats(home_team_abbr, away_team_abbr):
             # print(player_info[0].text)
             # print(player_info[17].text)
             min = player_info[0].text
-            #fg means field goal
-            fg = player_info[1].text
+            #fg means field goal made
+            fgm = player_info[1].text
             #fga means field goal attempted
             fga = player_info[2].text
-            if player_info[3].text != '':
-                #fga means field goal/field goal attempted
-                fg_percent = player_info[3].text
-            else:
-                fg_percent = 0
+            fgm_a = "{}-{}".format(fgm, fga)
+            # three_point_m means three point made
+            three_point_m = player_info[4].text
+            # three_point_a means three point attempted
+            three_point_a = player_info[5].text
+            threepm_a = "{}-{}".format(three_point_m, three_point_a)
+            # ftm means free throw made
+            ftm = player_info[7].text
+            # ftm means free throw attempted
+            fta = player_info[8].text
+            ftm_a = "{}-{}".format(ftm, fta)
             rebs = player_info[12].text
             asts = player_info[13].text
             stls = player_info[14].text
             blks = player_info[15].text
             pts = player_info[18].text
-            player = Player(away_team_abbr, name, min, fg, fga, fg_percent, rebs, asts, stls, blks, pts)
+            player = Player(away_team_abbr, name, min, fgm_a, threepm_a, ftm_a, rebs, asts, stls, blks, pts)
             list_of_away_player.append(player)
         except:
             if away_count == 0:
@@ -255,20 +261,26 @@ def get_player_stats(home_team_abbr, away_team_abbr):
             player_info = player.find_all("td")
             min = player_info[0].text
             #fg means field goal
-            fg = player_info[1].text
+            fgm = player_info[1].text
             #fga means field goal attempted
             fga = player_info[2].text
-            if player_info[3].text != '':
-                #fga means field goal/field goal attempted
-                fg_percent = player_info[3].text
-            else:
-                fg_percent = 0
+            fgm_a = "{}-{}".format(fgm, fga)
+            # three_point_m means three point made
+            three_point_m = player_info[4].text
+            # three_point_a means three point attempted
+            three_point_a = player_info[5].text
+            threepm_a = "{}-{}".format(three_point_m, three_point_a)
+            # ftm means free throw made
+            ftm = player_info[7].text
+            # ftm means free throw attempted
+            fta = player_info[8].text
+            ftm_a = "{}-{}".format(ftm, fta)
             rebs = player_info[12].text
             asts = player_info[13].text
             stls = player_info[14].text
             blks = player_info[15].text
             pts = player_info[18].text
-            player = Player(home_team_abbr, name, min, fg, fga, fg_percent, rebs, asts, stls, blks, pts)
+            player = Player(home_team_abbr, name, min, fgm_a, threepm_a, ftm_a, rebs, asts, stls, blks, pts)
             list_of_home_player.append(player)
         except:
             if home_count == 0:
@@ -458,7 +470,7 @@ if __name__ == "__main__":
     conn.commit()
 
     # query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("MATCH" VARCHAR(500), "TEAM" VARCHAR(500), "PLAYER" VARCHAR(500) REFERENCES {}, "MIN" VARCHAR(500), "FG" INT, "FGA" INT, "FG%(FG/FGA)" FLOAT, "REB" INT, "AST" INT, "STL" INT, "BLK" INT, "PTS" INT,  PRIMARY KEY("MATCH", "PLAYER"))'.format(table_name, '''"PLAYER_INFO"("PLAYER")''')
-    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("MATCH" VARCHAR(500), "TEAM" VARCHAR(500), "PLAYER" VARCHAR(500), "MIN" VARCHAR(500), "FG" INT, "FGA" INT, "FG%" FLOAT, "REB" INT, "AST" INT, "STL" INT, "BLK" INT, "PTS" INT,  PRIMARY KEY("MATCH", "PLAYER"), FOREIGN KEY ("MATCH", "TEAM") REFERENCES {})'.format(table_name, '''"BOX_SCORE"("MATCH", "TEAM")''')
+    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("MATCH" VARCHAR(500), "TEAM" VARCHAR(500), "PLAYER" VARCHAR(500), "MIN" VARCHAR(500), "FGM-A" VARCHAR(100), "3PM-A" VARCHAR(100), "FTM-A" VARCHAR(100), "REB" INT, "AST" INT, "STL" INT, "BLK" INT, "PTS" INT,  PRIMARY KEY("MATCH", "PLAYER"), FOREIGN KEY ("MATCH", "TEAM") REFERENCES {})'.format(table_name, '''"BOX_SCORE"("MATCH", "TEAM")''')
     cur.execute(query_for_table)
     conn.commit()
 
@@ -469,7 +481,7 @@ if __name__ == "__main__":
             # print(list_of_player_stats_diction)
             for player_diction in list_of_player_stats_diction:
                 player_diction["MATCH"] = "{}|{}".format(match[0], match[1])
-            sql = 'INSERT INTO "{}" VALUES (%(MATCH)s, %(Team)s, %(Name)s, %(MIN)s, %(FG)s, %(FGA)s, %(PERCENT)s, %(REB)s, %(AST)s, %(STL)s, %(BLK)s, %(PTS)s) ON CONFLICT DO NOTHING'.format(table_name)
+            sql = 'INSERT INTO "{}" VALUES (%(MATCH)s, %(Team)s, %(Name)s, %(MIN)s, %(FGA-M)s, %(3PM-A)s, %(FTM-A)s, %(REB)s, %(AST)s, %(STL)s, %(BLK)s, %(PTS)s) ON CONFLICT DO NOTHING'.format(table_name)
             cur.executemany(sql, list_of_player_stats_diction)
             conn.commit()
         except Exception as e:
