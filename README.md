@@ -121,8 +121,8 @@ After successfully running SI508_Final_Project.py, one can check the output in P
 | **3. Connect to NBA_DB** | ``` \c NBA_DB ```|
 | **4. Check tables** | ``` \dt ```|
 | **5. Get into Table BOX_SCORE, like Fig. 1** | ``` select * from "BOX_SCORE"; ```|
-| **6. Get into Table PLAYER_INFO, like Fig. 2** | ``` select * from "PLAYER_INFO"; ```|
-| **7. Get into Table PLAYER_STATS, like Fig. 3** | ``` select * from "PLAYER_STATS"; ```|
+| **6. Get into Table PLAYER_INFO, like Fig. 2** | ``` select * from "PLAYER_INFO" where "TEAM" = '<any team you are interested>'; ```|
+| **7. Get into Table PLAYER_STATS, like Fig. 3** | ``` select * from "PLAYER_STATS" where "MATCH" = '<any match you see in BOX_SCORE table>'; ```|
 
 
 <p align="center">

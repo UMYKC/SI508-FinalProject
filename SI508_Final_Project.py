@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from alternate_advanced_caching import Cache
 from secrets import all_sports_api
 from Class import Game, Player
+from NBA_Team_Abbrev_Dict import NBA_Teams
 import requests
 from datetime import datetime, timedelta
 import psycopg2, psycopg2.extras
@@ -26,45 +27,16 @@ for i in range(3):
 
 '''
 ##########################################################
-Part 0: Setup PSQL and NBA Team Abbreviation Dictionary
+Part 0: Preprocessing
 ##########################################################
 '''
 
-NBA_Teams = {}
-NBA_Teams["Atlanta Hawks"] = "ATL"
-NBA_Teams["Brooklyn Nets"] = "BKN"
-NBA_Teams["Boston Celtics"] = "BOS"
-NBA_Teams["Charlotte Hornets"] = "CHO"
-NBA_Teams["Chicago Bulls"] = "CHI"
-NBA_Teams["Cleveland Cavaliers"] = "CLE"
-NBA_Teams["Dallas Mavericks"] = "DAL"
-NBA_Teams["Denver Nuggets"] = "DEN"
-NBA_Teams["Detroit Pistons"] = "DET"
-NBA_Teams["Golden State Warriors"] = "GSW"
-NBA_Teams["Houston Rockets"] = "HOU"
-NBA_Teams["Indiana Pacers"] = "IND"
-NBA_Teams["Los Angeles Clippers"] = "LAC"
-NBA_Teams["Los Angeles Lakers"] = "LAL"
-NBA_Teams["Memphis Grizzlies"] = "MEM"
-NBA_Teams["Miami Heat"] = "MIA"
-NBA_Teams["Milwaukee Bucks"] = "MIL"
-NBA_Teams["Minnesota Timberwolves"] = "MIN"
-NBA_Teams["New Orleans Pelicans"] = "NOP"
-NBA_Teams["New York Knicks"] = "NYK"
-NBA_Teams["Oklahoma City Thunder"] = "OKC"
-NBA_Teams["Orlando Magic"] = "ORL"
-NBA_Teams["Philadelphia 76ers"] = "PHI"
-NBA_Teams["Phoenix Suns"] = "PHX"
-NBA_Teams["Portland Trail Blazers"] = "POR"
-NBA_Teams["Sacramento Kings"] = "SAC"
-NBA_Teams["San Antonio Spurs"] = "SAS"
-NBA_Teams["Toronto Raptors"] = "TOR"
-NBA_Teams["Utah Jazz"] = "UTA"
-NBA_Teams["Washington Wizards"] = "WAS"
-
-## Put match(home_team, away_team) in it
+## Put match(home_team, away_team) in it, which will be used when creating PLAYER_STATS table
 NBA_Matches = []
-## Put box_score_url in it to check if there is duplicate
+
+## Put box_score_url in it to check if there is duplicate.
+## To be more precise, there may be a home team have back to back game,
+## which may be lead to scraping the incorrect webpages if I do not do deduplicate.
 Repeated = []
 
 '''
@@ -99,7 +71,7 @@ def get_games_info():
         # response is a string
         daily_game_text = requests.get(base_url, para_dict).text
         cache.set(time_today_id, daily_game_text, 1)
-        print("send requests")
+        print("send requests through All Sports API")
     else:
         pass
         # print("already in cache")
@@ -496,32 +468,3 @@ if __name__ == "__main__":
 
     # print(Repeated)
     # print(NBA_Matches)
-# A = "MIL"
-# A = A.upper()
-# B = "GSW"
-# B = B.upper()
-#
-# input_match = (A, B)
-# ## First check if the match exist within this two days
-# if checked(input_match) == False:
-#     print("This match does not exist")
-# else:
-#     list_of_players = get_player_stats(A, B)
-#     list_of_home_players = list_of_players[0]
-#     list_of_away_players = list_of_players[1]
-#     print("HOME: {}".format(A))
-#     print("############STARTERS#############")
-#     for home_player in list_of_home_players:
-#         if home_player != 0:
-#             print(home_player.__str__("stats"))
-#         else:
-#             print("****BENCHES****")
-#     print('#################################')
-#
-#     print("AWAY: {}".format(B))
-#     print("############STARTERS#############")
-#     for away_player in list_of_away_players:
-#         if away_player != 0:
-#             print(away_player.__str__("stats"))
-#         else:
-#             print("****BENCHES****")
