@@ -6,7 +6,7 @@ YU-KAI CHOU #51054859
 https://paper.dropbox.com/doc/SI-508-Final-Project-Proposal--ASGPsji2Z6NUcZx0M3yV5sNxAg-cflJKwQwD6IWpMUmwhfqQ
 
 # Project Objective
-This project is mainly done by using RESTful API, scraping skills to acquire NBA stats and demonstrate the relation between matches, teams and players via tables in database. As a result, the output is three tables in a relational database called NBA_DB. The tables are named "BOX_SCORE", "PLAYER_INFO" and "PLAYER_STATS" individually, users can use which to see NBA game results, players' basic information, such as their number, weight and height, and statistics, such as points, assists, rebounds, field goals they got within two days. In addition, by using SQL SELECT statements and WHERE clause, served as a filter, users can find some desired result between tables.
+This project is mainly done by using RESTful API, scraping skills to acquire NBA stats and demonstrate the relation between matches, teams and players via tables in database. As a result, the output is three tables in a relational database called NBA_DB. The tables are named "BOX_SCORE", "PLAYER_INFO" and "PLAYER_STATS" individually, users can use which to see NBA game results, players' basic information, such as their number, weight and height, and statistics, such as points, assists, rebounds, field goals they got in games within two days. In addition, by using SQL SELECT statements and WHERE clause, served as a filter, users can find some desired result between tables.
 
 The reason that I want to do is that I have been watching NBA for 7 years. I always check out the game results on a Taiwan website, called **PTT Bulletin Board System**, instead of NBA.com at the end of every day since the way it performs those games are like
 
@@ -95,7 +95,7 @@ Excluding Image file, there are 8 files.
 | **Class.py** | Define two classes, Game and Player|
 | **README.md** | Includes all the information one needs to know, setup, and run for this project|
 | **SI508_Final_Project.py** | The main file to run with python|
-| **TESTS_SI508_Final_Project.py** | The test suite file to see whether SI508_Final_Project.py passes 12 test methods|
+| **TESTS_SI508_Final_Project.py** | The test suite file to see whether SI508_Final_Project.py passes 13 test methods|
 | **alternate_advanced_caching.py** | Define a class called Cache. It will do caching but with expiry time|
 | **query_for_NBA_DB.py** | The example code of making queries depending upon what users might want to find out from the tables|
 | **secrets.py** | Where users should put their own API key, requested from All Sports API website|
@@ -148,4 +148,30 @@ In addition, there is a file called query_for_NBA_DB.py. One can try to run it b
 | ```\q```| quit psql |
 
 ## Running Test Suites
-Simply run ```python TESTS_SI508_Final_Project.py``` in terminal, which has 12 test methods.
+Simply run ```python TESTS_SI508_Final_Project.py``` in terminal, which has 13 test methods.
+Each of them has explanation written in comment format.
+
+## Attribution of sources
+1. PTT Bulletin Board System
+2. All Sports API
+3. Basketball-Reference.com
+4. Stack Overflow
+
+## Project requirements I have chosen to fulfill
+
+| Requirement | Description|
+| ---- | --- |
+| Basic requirements||
+| 2 data sources| All Sports API, Scraping data from Basketball-Reference.com|
+| Caching must be implemented| Implementing by ```alternate_advanced_caching.py```|
+| Process data from each source| Yes, I processed the data from API and webpages and used them to create classes|
+| Import and use other Python module| BeautifulSoup, psycopg2|
+| At least 2 unittest.TestSuite subclasses and at least 10 test methods| There are 4 subclasses and 14 test methods in my test file|
+|Product produced by the project | 3 tables in NBA_DB in PostgreSQL|
+| Define at least 2 classes | Game and Player|
+| Examples of your output | Fig. 1 - Fig. 3|
+| Second level requirements |  |
+| Scraping data that comes in HTML or XML form using BeautifulSoup | YES|
+| Accessing a REST API or a new endpoint of a REST API | All Sports API|
+| Third level requirements|  |
+| A (relational) PostgreSQL database that includes at least two tables which have at least one relationship, from which useful queries can be made| 3 tables, BOX_SCORE, PLAYER_INFO, PLAYER_STATS. And PLAYER_STATS have a foreign key, (MATCH and TEAM), reference to BOX_SCORE's primary key, (MATCH and TEAM) |

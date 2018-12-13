@@ -116,9 +116,9 @@ def get_games_info():
     for game in list_of_games:
         event_date = game["event_date"]
         home_team = NBA_Teams[game["event_home_team"]]
-        # print(home_team)
         away_team = NBA_Teams[game["event_away_team"]]
-        # print(away_team)
+        # home_team = "{} ({})".format(game["event_home_team"], NBA_Teams[game["event_home_team"]])
+        # away_team = "{} ({})".format(game["event_away_team"], NBA_Teams[game["event_away_team"]])
         Match = (NBA_Teams[game["event_home_team"]], NBA_Teams[game["event_away_team"]])
         NBA_Matches.append(Match)
         home_score = []
@@ -386,10 +386,10 @@ if __name__ == "__main__":
 
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     table_name = "BOX_SCORE"
-    drop_query = '''DROP TABLE IF EXISTS "{}"'''.format(table_name)
+    drop_query = '''DROP TABLE IF EXISTS "{}", {}'''.format(table_name, '''"PLAYER_STATS"''')
     cur.execute(drop_query)
     conn.commit()
-    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("DATE" VARCHAR(500), "MATCH" VARCHAR(500) PRIMARY KEY, "TEAM" VARCHAR(500), "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "FINAL" INT)'.format(table_name)
+    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("DATE" VARCHAR(500), "MATCH" VARCHAR(500), "TEAM" VARCHAR(500), "Q1" INT, "Q2" INT, "Q3" INT, "Q4" INT, "FINAL" INT, PRIMARY KEY("MATCH", "TEAM"))'.format(table_name)
     cur.execute(query_for_table)
     conn.commit()
 
@@ -458,7 +458,7 @@ if __name__ == "__main__":
     conn.commit()
 
     # query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("MATCH" VARCHAR(500), "TEAM" VARCHAR(500), "PLAYER" VARCHAR(500) REFERENCES {}, "MIN" VARCHAR(500), "FG" INT, "FGA" INT, "FG%(FG/FGA)" FLOAT, "REB" INT, "AST" INT, "STL" INT, "BLK" INT, "PTS" INT,  PRIMARY KEY("MATCH", "PLAYER"))'.format(table_name, '''"PLAYER_INFO"("PLAYER")''')
-    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("MATCH" VARCHAR(500), "TEAM" VARCHAR(500), "PLAYER" VARCHAR(500), "MIN" VARCHAR(500), "FG" INT, "FGA" INT, "FG%(FG/FGA)" FLOAT, "REB" INT, "AST" INT, "STL" INT, "BLK" INT, "PTS" INT,  PRIMARY KEY("MATCH", "PLAYER"))'.format(table_name)
+    query_for_table = 'CREATE TABLE IF NOT EXISTS "{}" ("MATCH" VARCHAR(500), "TEAM" VARCHAR(500), "PLAYER" VARCHAR(500), "MIN" VARCHAR(500), "FG" INT, "FGA" INT, "FG%" FLOAT, "REB" INT, "AST" INT, "STL" INT, "BLK" INT, "PTS" INT,  PRIMARY KEY("MATCH", "PLAYER"), FOREIGN KEY ("MATCH", "TEAM") REFERENCES {})'.format(table_name, '''"BOX_SCORE"("MATCH", "TEAM")''')
     cur.execute(query_for_table)
     conn.commit()
 

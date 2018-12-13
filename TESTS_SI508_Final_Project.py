@@ -38,35 +38,35 @@ class Test2_Game(unittest.TestCase):
         self.assertEqual(len(list_of_games), len(NBA_Matches), "Testing the number of NBA_Matches within these two days")
 
 class Test3_Player(unittest.TestCase):
+    ## To test whether the function return a list of class "Player" I define
     def test_player_type(self):
         self.assertIsInstance(get_players_for_the_team("LAL")[3], Player)
+    ## To test whether instantiation of Player is correct by checking the attribute
     def test_player_team(self):
         player = Player("DAL", "Luka Doncic")
         self.assertEqual(player.team, "DAL")
+    ## To test whether instantiation of Player is correct by checking the attribute
     def test_player_name(self):
         player = Player("DAL", "Luka Doncic")
         self.assertEqual(player.name, "Luka Doncic")
-    def test_player_table_rep(self):
+    ## To see whether Player.table_rep(Team) method return a dictionary with 6 keys as I define
+    def test_player_table_rep_team(self):
         player = Player("DAL", "Luka Doncic")
         self.assertEqual(len(player.table_rep().keys()), 6)
+    ## To see whether Player.table_rep("Stats") method return a dictionary with 6 keys as I define
+    def test_player_table_rep_stats(self):
+        player = Player("DAL", "Luka Doncic")
+        self.assertEqual(len(player.table_rep("Stats").keys()),11)
 
 class Test4_NBA_DB(unittest.TestCase):
+    ## To see whether Los Angles Lakers player - Lebron James is there if I make query related to "TEAM" = 'LAL' in query_for_NBA_DB.py file
     def test_player_existence(self):
         self.assertIn('LeBron James', res1[9][2])
+    ## To check out whether the query return a list of player whose field goal percentage is greater than 50%.
+    # That is, these players almost make one field goal with two field-goal-attempts       
     def test_player_fg_percentage(self):
         self.assertTrue(res4[2][6] >= 0.5)
 
-
-
-# # class Problem3(unittest.TestCase):
-# #     def test_func_var(self):
-# #         self.assertEqual(func_var, greeting)
-# #     def test_new_digit(self):
-# #         self.assertIsInstance(new_digit, int)
-# #         self.assertTrue(new_digit<10 and new_digit > -1)
-# #     def test_digit_func(self):
-# #         self.assertEqual(digit_func, random_digit)
-# #
 
 
 if __name__ == "__main__":

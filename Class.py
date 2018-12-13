@@ -39,13 +39,12 @@ class Game():
         team_box_score_diction = []
         home_abbre = self.home_team.split(' ')[-1].strip('(').strip(')')
         away_abbre = self.away_team.split(' ')[-1].strip('(').strip(')')
-        match1 = "{}|{}".format(home_abbre, away_abbre)
-        match2 = "{}|{}".format(away_abbre, home_abbre)
+        match = "{}|{}".format(home_abbre, away_abbre)
 
         Home = {}
         Home["DATE"] = self.date
-        Home["MATCH"] = match1
-        Home["TEAM"] = "{}".format(self.home_team)
+        Home["MATCH"] = match
+        Home["TEAM"] = self.home_team
         Home["Q1"] = self.home1Q
         Home["Q2"] = self.home2Q
         Home["Q3"] = self.home3Q
@@ -55,8 +54,8 @@ class Game():
 
         Away = {}
         Away["DATE"] = self.date
-        Away["MATCH"] = match2
-        Away["TEAM"] = "{}".format(self.away_team)
+        Away["MATCH"] = match
+        Away["TEAM"] = self.away_team
         Away["Q1"] = self.away1Q
         Away["Q2"] = self.away2Q
         Away["Q3"] = self.away3Q
