@@ -62,10 +62,6 @@ class Test4_NBA_DB(unittest.TestCase):
     ## To see whether Los Angles Lakers player - Lebron James is there if I make query related to "TEAM" = 'LAL' in query_for_NBA_DB.py file
     def test_player_existence(self):
         self.assertIn('LeBron James', res1[9][2])
-    ## To check out whether the query return a list of player whose field goal percentage is greater than 50%.
-    # That is, these players almost make one field goal with two field-goal-attempts       
-    def test_player_fg_percentage(self):
-        self.assertTrue(res4[2][6] >= 0.5)
 
 
 

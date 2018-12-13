@@ -46,22 +46,12 @@ and "REB" >= 10
 and "AST" >= 10
 '''
 
-## Check out the player who score over 20 points and his field goal percentage is equal or higher than 50%
-query4 = '''
-select *
-from "PLAYER_STATS"
-where "PTS" >= 20
-and "FG%(FG/FGA)" >= 0.5
-'''
-
 cur.execute(query1)
 res1 = cur.fetchall()
 cur.execute(query2)
 res2 = cur.fetchall()
 cur.execute(query3)
 res3 = cur.fetchall()
-cur.execute(query4)
-res4 = cur.fetchall()
 
 if __name__ == "__main__":
     print(res1) ## this should print out the Los Angles Lakers's players info(list of list) [['LAL', 40, 'Ivica Zubac', 'C', '7-1', 240],
@@ -76,4 +66,3 @@ if __name__ == "__main__":
     print('''*****************************''')
     print(res3)
     print('''*****************************''')
-    print(res4)
