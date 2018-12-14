@@ -104,6 +104,7 @@ class Player():
             if self.no != '':
                 player_diction["No"] = self.no
             else:
+                ## Some players may not have number right now; hence I set their number as -1, also an integer
                 player_diction["No"] = -1
             player_diction["Position"] = self.position
             player_diction["Height"] = self.height

@@ -124,13 +124,14 @@ After successfully running SI508_Final_Project.py, one can check the output in P
 | **5. Get into Table BOX_SCORE, like Fig. 1** | ``` select * from "BOX_SCORE"; ```|
 | **6. Get into Table PLAYER_INFO, like Fig. 2** | ``` select * from "PLAYER_INFO" where "TEAM" = '<any team you are interested>'; ```|
 | **7. Get into Table PLAYER_STATS, like Fig. 3** | ``` select * from "PLAYER_STATS" where "MATCH" = '<any match you see in BOX_SCORE table>'; ```|
+|Note| For those players whose NO is -1 is due to that they do not have number right now|
 
 
 <p align="center">
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/BOX_SCORE.png" height="301" width="546">
-  
+
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_INFO.png" height="314" width="508">
-  
+
   <img src="https://github.com/UMYKC/SI508-FinalProject/blob/master/Image/PLAYER_STATS.png" height="331" width="571.2">
 </p>
 
