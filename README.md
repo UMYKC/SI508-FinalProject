@@ -87,7 +87,7 @@ One can check it by typing ```\l``` and should see something like this in the pr
 
 
 ## Files in this Repo
-Excluding Image file, there are 8 files.
+Excluding Image file, there are 9 files.
 
 | File Name | Description |
 | ---- | --- |
