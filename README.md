@@ -151,7 +151,7 @@ In addition, there is a file called query_for_NBA_DB.py. One can try to run it b
 
 ## Running Test Suites
 Simply run ```python TESTS_SI508_Final_Project.py``` in terminal, which has 13 test methods.
-Each of them has explanation written in comment format.
+Each test has explanation written in comment format.
 
 ## Attribution of Sources
 1. PTT Bulletin Board System
