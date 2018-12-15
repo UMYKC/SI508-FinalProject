@@ -153,13 +153,13 @@ In addition, there is a file called query_for_NBA_DB.py. One can try to run it b
 Simply run ```python TESTS_SI508_Final_Project.py``` in terminal, which has 13 test methods.
 Each of them has explanation written in comment format.
 
-## Attribution of sources
+## Attribution of Sources
 1. PTT Bulletin Board System
 2. All Sports API
 3. Basketball-Reference.com
 4. Stack Overflow
 
-## Project requirements I have chosen to fulfill
+## Project Requirements Chosen to Fulfill
 
 | Requirement | Description|
 | --- | --- |
